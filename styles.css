@@ -961,3 +961,47 @@ body {
     color: #111;
     font-weight: 600;
 }
+/* ===== AUTH BUTTONS (HEADER) ===== */
+.auth-buttons {
+    display: flex;
+    gap: 8px;
+    margin-left: 10px;
+}
+
+.auth-buttons a {
+    text-decoration: none;
+    font-size: 14px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+/* Đăng nhập */
+.btn-login {
+    background: transparent;
+    color: #eaeaea;
+    border: 1px solid #333;
+}
+
+.btn-login:hover {
+    background: #222;
+}
+
+/* Đăng ký */
+.btn-register {
+    background: #ff7a00;
+    color: #111;
+}
+
+.btn-register:hover {
+    opacity: 0.9;
+}
+
+/* MOBILE FIX */
+@media (max-width: 768px) {
+    .auth-buttons {
+        display: none; /* mobile thì ẩn cho gọn */
+    }
+}
