@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ - DarkHub</title>
+    <link rel="stylesheet" href="../styles/dark-theme.css">
+    <link rel="stylesheet" href="../styles/header.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .profile-header {
+            background: #1a1a1a;
+            border: 1px solid #2d2d2d;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f0f0f0;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+
+        .edit-btn {
+            padding: 0.75rem 1.5rem;
+            background: #FF006E;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: #E6005B;
+        }
+
+        .profile-section {
+            background: #1a1a1a;
+            border: 1px solid #2d2d2d;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #f0f0f0;
+            margin-bottom: 1rem;
+        }
+
+        .info-group {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #2d2d2d;
+        }
+
+        .info-group:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #888;
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: #f0f0f0;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #6A0572;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #4d0552;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #FF006E;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-wrapper">
+                <div class="logo">
+                    <span class="logo-emoji">🛍</span>
+                    <span class="logo-text">DarkHub</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <a href="../index-new.html" class="back-link">← Quay lại Trang Chủ</a>
+            
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="profile-avatar">👤</div>
+                    <div class="profile-name">Nguyễn Văn A</div>
+                    <div class="profile-email">nguyenvan@example.com</div>
+                    <button class="edit-btn">Chỉnh Sửa Hồ Sơ</button>
+                </div>
+
+                <div class="profile-section">
+                    <h2 class="section-title">Thông Tin Cá Nhân</h2>
+                    <div class="info-group">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">nguyenvan@example.com</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Số điện thoại:</span>
+                        <span class="info-value">+971 50 123 4567</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Thành phố:</span>
+                        <span class="info-value">Dubai</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Địa chỉ:</span>
+                        <span class="info-value">123 Main Street, Dubai, UAE</span>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h2 class="section-title">Thông Tin Tài Khoản</h2>
+                    <div class="info-group">
+                        <span class="info-label">Ngày tạo:</span>
+                        <span class="info-value">15/01/2025</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Trạng thái:</span>
+                        <span class="info-value">Hoạt động</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Tổng đơn hàng:</span>
+                        <span class="info-value">24</span>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h2 class="section-title">Liên Kết Nhanh</h2>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <a href="orders.html" style="padding: 1rem; background: #2d2d2d; border-radius: 0.5rem; text-align: center; color: #FF006E; text-decoration: none; font-weight: 600;">Đơn Hàng Của Tôi</a>
+                        <a href="cart.html" style="padding: 1rem; background: #2d2d2d; border-radius: 0.5rem; text-align: center; color: #FF006E; text-decoration: none; font-weight: 600;">Giỏ Hàng</a>
+                    </div>
+                </div>
+
+                <button class="logout-btn" onclick="handleLogout()">Đăng Xuất</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function handleLogout() {
+            alert('Đăng xuất thành công!');
+            window.location.href = '../pages/login.html';
+        }
+    </script>
+</body>
+</html>

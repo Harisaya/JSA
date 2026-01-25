@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đơn Hàng - DarkHub</title>
+    <link rel="stylesheet" href="../styles/dark-theme.css">
+    <link rel="stylesheet" href="../styles/header.css">
+    <style>
+        .orders-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #FF006E;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f0f0f0;
+            margin-bottom: 2rem;
+        }
+
+        .orders-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .order-card {
+            background: #1a1a1a;
+            border: 1px solid #2d2d2d;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .order-id {
+            font-weight: 700;
+            color: #f0f0f0;
+            font-size: 1.1rem;
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            background: #2d2d2d;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            color: #10B981;
+            font-weight: 600;
+        }
+
+        .order-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #2d2d2d;
+        }
+
+        .info-item {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .info-item strong {
+            display: block;
+            color: #f0f0f0;
+            margin-top: 0.3rem;
+            font-weight: 600;
+        }
+
+        .order-items {
+            margin-bottom: 1rem;
+        }
+
+        .item-list {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .item-list strong {
+            color: #f0f0f0;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-top: 1px solid #2d2d2d;
+            font-weight: 700;
+            color: #FF006E;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn.primary {
+            background: #FF006E;
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: #E6005B;
+        }
+
+        .action-btn.secondary {
+            background: #2d2d2d;
+            color: #f0f0f0;
+            border: 1px solid #3a3a3a;
+        }
+
+        .action-btn.secondary:hover {
+            background: #3a3a3a;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #888;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            color: #f0f0f0;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-wrapper">
+                <div class="logo">
+                    <span class="logo-emoji">🛍</span>
+                    <span class="logo-text">DarkHub</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <a href="../index-new.html" class="back-link">← Quay lại Trang Chủ</a>
+            
+            <div class="orders-container">
+                <h1 class="page-title">Đơn Hàng Của Tôi</h1>
+                
+                <div class="orders-grid">
+                    <!-- Order 1 -->
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-id">Đơn hàng #12345</div>
+                            <div class="order-status">Đã giao</div>
+                        </div>
+                        <div class="order-info">
+                            <div class="info-item">
+                                Ngày đặt hàng
+                                <strong>15/01/2025</strong>
+                            </div>
+                            <div class="info-item">
+                                Ngày giao
+                                <strong>16/01/2025</strong>
+                            </div>
+                            <div class="info-item">
+                                Địa chỉ
+                                <strong>Dubai, UAE</strong>
+                            </div>
+                        </div>
+                        <div class="order-items">
+                            <div class="item-list">
+                                <strong>Sản phẩm:</strong>
+                                Pizza Paradise (1x), Burger Barn (2x)
+                            </div>
+                        </div>
+                        <div class="order-total">
+                            <span>Tổng cộng:</span>
+                            <span>125 AED</span>
+                        </div>
+                        <div class="order-actions">
+                            <button class="action-btn primary">Mua lại</button>
+                            <button class="action-btn secondary">Chi tiết</button>
+                        </div>
+                    </div>
+
+                    <!-- Order 2 -->
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-id">Đơn hàng #12344</div>
+                            <div class="order-status">Đang giao</div>
+                        </div>
+                        <div class="order-info">
+                            <div class="info-item">
+                                Ngày đặt hàng
+                                <strong>14/01/2025</strong>
+                            </div>
+                            <div class="info-item">
+                                Dự kiến giao
+                                <strong>16/01/2025</strong>
+                            </div>
+                            <div class="info-item">
+                                Địa chỉ
+                                <strong>Dubai, UAE</strong>
+                            </div>
+                        </div>
+                        <div class="order-items">
+                            <div class="item-list">
+                                <strong>Sản phẩm:</strong>
+                                Style Hub Jacket (1x)
+                            </div>
+                        </div>
+                        <div class="order-total">
+                            <span>Tổng cộng:</span>
+                            <span>258 AED</span>
+                        </div>
+                        <div class="order-actions">
+                            <button class="action-btn primary">Theo dõi</button>
+                            <button class="action-btn secondary">Chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

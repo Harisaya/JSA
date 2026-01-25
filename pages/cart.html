@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng - DarkHub</title>
+    <link rel="stylesheet" href="../styles/dark-theme.css">
+    <link rel="stylesheet" href="../styles/header.css">
+    <link rel="stylesheet" href="../styles/cart.css">
+    <style>
+        .cart-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f0f0f0;
+            margin-bottom: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #FF006E;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .cart-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+
+        .cart-items-section {
+            background: #1a1a1a;
+            border: 1px solid #2d2d2d;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .cart-summary-section {
+            background: #1a1a1a;
+            border: 1px solid #2d2d2d;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            height: fit-content;
+        }
+
+        .summary-title {
+            font-weight: 700;
+            color: #f0f0f0;
+            margin-bottom: 1rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #2d2d2d;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .summary-row.total {
+            border-bottom: none;
+            padding-top: 1rem;
+            font-weight: 700;
+            color: #FF006E;
+            font-size: 1rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #FF006E 0%, #8338EC 100%);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(255, 0, 110, 0.3);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 3rem;
+            color: #888;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .cart-content {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-summary-section {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                border-radius: 1rem 1rem 0 0;
+                max-height: 40vh;
+            }
+
+            .cart-items-section {
+                margin-bottom: 30vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-wrapper">
+                <div class="logo">
+                    <span class="logo-emoji">🛍</span>
+                    <span class="logo-text">DarkHub</span>
+                </div>
+                <div class="header-right">
+                    <a href="../index-new.html" style="color: #FF006E; text-decoration: none; font-weight: 600;">← Quay lại</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <a href="../index-new.html" class="back-link">← Quay lại</a>
+            
+            <div class="cart-container">
+                <h1 class="page-title">Giỏ Hàng</h1>
+                
+                <div class="cart-content">
+                    <div class="cart-items-section">
+                        <div class="empty-cart">
+                            <div class="empty-icon">🛒</div>
+                            <h3 style="color: #f0f0f0;">Giỏ hàng trống</h3>
+                            <p>Hãy thêm sản phẩm vào giỏ hàng để tiếp tục</p>
+                            <a href="../index-new.html" style="display: inline-block; margin-top: 1rem; color: #FF006E; text-decoration: none; font-weight: 600;">
+                                Tiếp tục mua sắm
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="cart-summary-section">
+                        <div class="summary-title">Tóm Tắt Đơn Hàng</div>
+                        <div class="summary-row">
+                            <span>Tổng tiền hàng:</span>
+                            <span>0 AED</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Phí giao hàng:</span>
+                            <span>0 AED</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Tổng cộng:</span>
+                            <span>0 AED</span>
+                        </div>
+                        <button class="checkout-btn" disabled>Đặt Hàng</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

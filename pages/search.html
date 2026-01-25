@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm Kiếm - DarkHub</title>
+    <link rel="stylesheet" href="../styles/dark-theme.css">
+    <link rel="stylesheet" href="../styles/header.css">
+    <link rel="stylesheet" href="../styles/products.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-wrapper">
+                <div class="logo">
+                    <span class="logo-emoji">🛍</span>
+                    <span class="logo-text">DarkHub</span>
+                </div>
+                <div class="header-right">
+                    <a href="../index-new.html" style="color: #FF006E; text-decoration: none; font-weight: 600;">← Quay lại</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="filters-section">
+                <div class="search-section">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Tìm kiếm sản phẩm..."
+                        class="main-search"
+                    >
+                    <span class="search-icon">🔍</span>
+                </div>
+                
+                <div class="category-filter">
+                    <button class="category-btn active" onclick="filterCategory('all')">Tất Cả</button>
+                    <button class="category-btn" onclick="filterCategory('food')">Thực Phẩm</button>
+                    <button class="category-btn" onclick="filterCategory('fashion')">Quần Áo</button>
+                    <button class="category-btn" onclick="filterCategory('electronics')">Điện Tử</button>
+                    <button class="category-btn" onclick="filterCategory('home')">Đồ Gia Dụng</button>
+                </div>
+            </div>
+
+            <div class="restaurants-grid">
+                <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #888;">
+                    <p>Nhập từ khóa tìm kiếm để xem kết quả</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function filterCategory(category) {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            if (e.target.value.length > 0) {
+                console.log('Searching for:', e.target.value);
+            }
+        });
+    </script>
+</body>
+</html>
