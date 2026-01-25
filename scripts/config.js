@@ -1,4 +1,4 @@
-const RAPIDAPI_KEY = 'YOUR_RAPIDAPI_KEY_HERE';
+const RAPIDAPI_KEY = 'f95461abeemsh6e3039e52116ac7p152f3ajsnd300217a2f54';
 const RAPIDAPI_HOST = 'talabat.p.rapidapi.com';
 const DELIVERY_FEE = 5;
 const CITIES_MAPPING = {

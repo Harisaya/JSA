@@ -116,3 +116,22 @@ export function closeModal() {
 // Expose globally
 window.showProductDetail = showProductDetail;
 window.closeModal = closeModal;
+(function () {
+    const params = new URLSearchParams(window.location.search);
+    const current = params.get('category') || 'all';
+
+    document.querySelectorAll('.category-nav-item').forEach(item => {
+        if (item.dataset.category === current) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    });
+
+    // phát event cho filter sản phẩm nếu mày đang dùng
+    document.dispatchEvent(
+        new CustomEvent('categoryChanged', {
+            detail: { category: current }
+        })
+    );
+})();
