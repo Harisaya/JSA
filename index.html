@@ -7,161 +7,107 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="app">
+    <div class="app">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-wrapper">
+                <!-- LEFT: Logo -->
+                <div class="logo">
+                    <span class="logo-emoji">🛍</span>
+                    <span class="logo-text">DarkHub</span>
+                </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-wrapper">
+                <!-- CENTER: City & Search -->
+                <div class="header-center">
+                    <div class="city-selector">
+                        <span>📍</span>
+                        <select id="citySelect" class="city-dropdown">
+                            <option value="Dubai">Dubai</option>
+                            <option value="Abu Dhabi">Abu Dhabi</option>
+                            <option value="Sharjah">Sharjah</option>
+                        </select>
+                    </div>
+                </div>
 
-            <!-- LEFT -->
-            <div class="logo">
-                <span class="logo-emoji"></span>
-                <span class="logo-text">Talabat</span>
-            </div>
-
-            <!-- CENTER -->
-            <div class="header-center">
-                <div class="city-selector">
-                    <span>📍</span>
-                    <select id="citySelect" class="city-dropdown">
-                        <option value="Dubai">Dubai</option>
-                        <option value="Abu Dhabi">Abu Dhabi</option>
-                        <option value="Sharjah">Sharjah</option>
-                    </select>
+                <!-- RIGHT: Search & Cart -->
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" id="headerSearch" placeholder="Tìm sản phẩm..." class="header-search">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <a href="/pages/search.html" class="nav-link">Tìm Kiếm</a>
+                    <a href="/pages/cart.html" class="nav-link">🛒 Giỏ Hàng</a>
+                    <a href="/pages/orders.html" class="nav-link">📦 Đơn Hàng</a>
+                    <a href="/pages/profile.html" class="nav-link">👤 Hồ Sơ</a>
                 </div>
             </div>
 
-            <!-- RIGHT -->
-            <div class="header-right">
-                <div class="search-box">
-                    <input type="text" id="headerSearch" placeholder="Tìm sản phẩm..." class="header-search">
-                    <span class="search-icon">🔍</span>
-                </div>
-                <button id="cartBtn" class="cart-button">
-                    <span>🛒</span>
-                    <span id="cartBadge" class="badge" style="display:none;">0</span>
-                </button>
-            </div>
+            <!-- CATEGORY NAVBAR -->
+            <nav class="category-navbar">
+                <a href="#" class="category-nav-item active" data-category="all">📦 Tất Cả</a>
+                <a href="#" class="category-nav-item" data-category="food">🍔 Thực Phẩm</a>
+                <a href="#" class="category-nav-item" data-category="medicine">💊 Thuốc</a>
+                <a href="#" class="category-nav-item" data-category="accessories">👗 Phụ Kiện</a>
+                <a href="#" class="category-nav-item" data-category="beauty">💄 Mỹ Phẩm</a>
+                <a href="#" class="category-nav-item" data-category="electronics">📱 Điện Tử</a>
+                <a href="#" class="category-nav-item" data-category="home">🛋️ Nhà</a>
+                <a href="#" class="category-nav-item" data-category="sports">⚽ Thể Thao</a>
+            </nav>
+        </header>
 
-        </div>
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- HOME PAGE -->
+            <section id="home-page" class="tab-content active">
+                <!-- Banner -->
+                <section class="banner-section">
+                    <div class="banner">
+                        <h2>Mua Sắm Toàn Nền Tảng</h2>
+                        <p>Thực phẩm, quần áo, điện tử, đồ gia dụng & hơn thế nữa</p>
+                    </div>
+                </section>
 
-<nav class="category-navbar">
-    <a href="?category=all" class="category-nav-item" data-category="all">
-        📦 Tất Cả
-    </a>
-    <a href="?category=food" class="category-nav-item" data-category="food">
-        🍔 Thực Phẩm
-    </a>
-    <a href="?category=medicine" class="category-nav-item" data-category="medicine">
-        💊 Thuốc
-    </a>
-    <a href="?category=accessories" class="category-nav-item" data-category="accessories">
-        👗 Phụ Kiện
-    </a>
-    <a href="?category=beauty" class="category-nav-item" data-category="beauty">
-        💄 Mỹ Phẩm
-    </a>
-    <a href="?category=electronics" class="category-nav-item" data-category="electronics">
-        📱 Điện Tử
-    </a>
-    <a href="?category=home" class="category-nav-item" data-category="home">
-        🛋️ Nhà
-    </a>
-    <a href="?category=sports" class="category-nav-item" data-category="sports">
-        ⚽ Thể Thao
-    </a>
-</nav>
-<div class="header-right">
-    <div class="auth-buttons">
-        <a href="/pages/login.html" class="btn-login">Đăng nhập</a>
-        <a href="/pages/register.html" class="btn-register">Đăng ký</a>
-    </div>
-</div>
+                <!-- Search/Filter Section -->
+                <section class="filters-section">
+                    <div class="search-section">
+                        <input type="text" id="mainSearch" placeholder="Tìm kiếm sản phẩm..." class="main-search">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                </section>
 
-    </header>
+                <!-- Products Grid -->
+                <section class="restaurants-section">
+                    <div id="loading" class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Đang tải sản phẩm...</p>
+                    </div>
+                    <div id="restaurantsList" class="restaurants-grid"></div>
+                    <div id="emptyState" class="empty-state" style="display:none;">
+                        <div class="empty-icon">📦</div>
+                        <h3>Không tìm thấy sản phẩm</h3>
+                        <p>Thử tìm kiếm hoặc thay đổi danh mục</p>
+                    </div>
+                </section>
+            </section>
 
-    
+    <!-- SCRIPTS -->
+    <script src="config.js"></script>
+    <script src="mock-data.js"></script>
+    <script src="api.js"></script>
+    <script src="search.js"></script>
+    <script src="cart.js"></script>
+    <script src="navbar.js"></script>
+    <script src="ui.js"></script>
+    <script src="animation.js"></script>
+    <script src="main.js"></script>
 
-    <!-- Main Content -->
-    <main class="main-content">
-
-        <!-- Banner -->
-        <section class="banner-section">
-            <div class="banner">
-                <h2>Mua Sắm Toàn Nền Tảng</h2>
-                <p>Thực phẩm, quần áo, điện tử, đồ gia dụng & hơn thế nữa</p>
-            </div>
-        </section>
-
-        <!-- Search only (FILTER CATEGORY ĐÃ DỜI LÊN HEADER) -->
-        <section class="filters-section">
-            <div class="search-section">
-                <input
-                    type="text"
-                    id="mainSearch"
-                    placeholder="Tìm kiếm sản phẩm..."
-                    class="main-search"
-                >
-                <span class="search-icon">🔍</span>
-            </div>
-        </section>
-
-        <!-- Products Grid -->
-        <section class="restaurants-section">
-            <div id="loading" class="loading-spinner">
-                <div class="spinner"></div>
-                <p>Đang tải sản phẩm...</p>
-            </div>
-
-            <div id="restaurantsList" class="restaurants-grid"></div>
-
-            <div id="emptyState" class="empty-state" style="display:none;">
-                <div class="empty-icon">📦</div>
-                <h3>Không tìm thấy sản phẩm</h3>
-                <p>Thử tìm kiếm hoặc thay đổi danh mục</p>
-            </div>
-        </section>
-    </main>
-
-</div>
-
-<!-- Product Detail Modal -->
-<div id="restaurantModal" class="modal">
-    <div class="modal-overlay"></div>
-    <div class="modal-content restaurant-modal">
-        <button class="modal-close">&times;</button>
-        <div id="restaurantContent"></div>
-    </div>
-</div>
-
-<!-- Cart Modal -->
-<div id="cartModal" class="modal">
-    <div class="modal-overlay"></div>
-    <div class="modal-content cart-modal">
-        <button class="modal-close">&times;</button>
-
-        <div class="cart-body">
-            <div id="cartContent"></div>
-        </div>
-
-        <div class="cart-footer">
-            <div class="price-summary" id="priceSummary"></div>
-            <button id="checkoutBtn" class="checkout-btn">Thanh toán</button>
-        </div>
-    </div>
-</div>
-
-<!-- Notification -->
-<div id="notification" class="notification"></div>
-
-<!-- Scripts -->
-<script src="scripts/config.js"></script>
-<script src="scripts/mock-data.js"></script>
-<script src="scripts/animations.js"></script>
-<script src="scripts/api.js"></script>
-<script src="scripts/search.js"></script>
-<script src="scripts/ui.js"></script>
-<script src="scripts/cart.js"></script>
-
+    <script>
+        // Global helper function
+        window.filterCategory = function(category) {
+            if (window.appRouter) {
+                window.appRouter.filterByCategory(category);
+            }
+        };
+    </script>
 </body>
 </html>
