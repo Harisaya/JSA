@@ -16,6 +16,20 @@ body {
     overflow-x: hidden;
 }
 
+.nav-link {
+    color: #FF006E;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background: #FF006E;
+    color: white;
+}
+
 .app {
     display: flex;
     flex-direction: column;

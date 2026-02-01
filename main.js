@@ -268,7 +268,7 @@ async function loadRestaurants() {
         showLoading(false);
     } catch (error) {
         console.log('[v0] API Error - Using mock data:', error.message);
-        state.restaurants = [];
+        state.restaurants = getMockRestaurants();
         state.filteredRestaurants = [...state.restaurants];
         renderRestaurants();
         showLoading(false);
@@ -279,10 +279,10 @@ async function loadRestaurantMenu(restaurantId) {
     try {
         const response = await fetch(`${API_BASE}/restaurant/${restaurantId}/menu`);
         const data = await response.json();
-        return data.menu || [];
+        return data.menu || getMockMenu(restaurantId);
     } catch (error) {
         console.error('[v0] Error loading menu:', error);
-        return [];
+        return getMockMenu(restaurantId);
     }
 }
 
@@ -479,114 +479,104 @@ function addToCart(item) {
 }
 
 function removeFromCart(itemId) {
-    state.cart = state.cart.filter(item => item.id !== itemId);
+    state.cart = state.cart.filter(i => i.id !== itemId);
     updateCart();
+    renderCart();
 }
 
-function updateItemQuantity(itemId, quantity) {
-    if (quantity <= 0) {
-        removeFromCart(itemId);
-        return;
-    }
-    
+function updateQuantity(itemId, quantity) {
     const item = state.cart.find(i => i.id === itemId);
     if (item) {
-        item.quantity = quantity;
+        item.quantity = Math.max(1, quantity);
         updateCart();
-    }
-}
-
-function updateCart() {
-    elements.cartBadge.textContent = state.cart.reduce((sum, item) => sum + item.quantity, 0);
-    
-    if (document.getElementById('cartModal').classList.contains('active')) {
         renderCart();
     }
 }
 
-function quickAddRestaurant(restaurantId, restaurantName) {
-    const item = {
-        id: `quick_${restaurantId}_${Date.now()}`,
-        name: `${restaurantName} - Delivery`,
-        price: DELIVERY_FEE,
-        restaurantId: restaurantId,
-        restaurantName: restaurantName,
-        quantity: 1
-    };
-    addToCart(item);
+function updateCart() {
+    const count = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+    elements.cartBadge.textContent = count;
+    elements.cartBadge.style.display = count > 0 ? 'flex' : 'none';
 }
 
 function renderCart() {
     if (state.cart.length === 0) {
-        elements.cartContent.innerHTML = `
-            <div class="empty-cart">
-                <div class="empty-cart-icon">🛒</div>
-                <h3>Giỏ hàng trống</h3>
-                <p>Thêm sản phẩm để bắt đầu</p>
-            </div>
-        `;
-        document.getElementById('checkoutButton').disabled = true;
-        updateCartSummary();
+        elements.cartContent.innerHTML = '<p style="text-align: center; color: #999;">Giỏ hàng trống</p>';
         return;
     }
     
-    document.getElementById('checkoutButton').disabled = false;
+    const total = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + DELIVERY_FEE;
+    
     elements.cartContent.innerHTML = `
-        <div class="cart-items">
+        <div class="cart-list">
             ${state.cart.map(item => `
                 <div class="cart-item">
-                    <div class="cart-item-info">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-content">
                         <div class="cart-item-name">${item.name}</div>
                         <div class="cart-item-price">AED ${item.price}</div>
                     </div>
-                    <div class="cart-item-actions">
-                        <button class="quantity-btn" onclick="updateItemQuantity('${item.id}', ${item.quantity - 1})">−</button>
-                        <div class="quantity-display">${item.quantity}</div>
-                        <button class="quantity-btn" onclick="updateItemQuantity('${item.id}', ${item.quantity + 1})">+</button>
-                        <button class="remove-btn" onclick="removeFromCart('${item.id}')">Delete</button>
+                    <div class="cart-item-controls">
+                        <button onclick="updateQuantity('${item.id}', ${item.quantity - 1})">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="updateQuantity('${item.id}', ${item.quantity + 1})">+</button>
                     </div>
+                    <button class="remove-btn" onclick="removeFromCart('${item.id}')">🗑️</button>
                 </div>
             `).join('')}
         </div>
+        <div class="cart-summary">
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span>AED ${state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)}</span>
+            </div>
+            <div class="summary-row">
+                <span>Delivery:</span>
+                <span>AED ${DELIVERY_FEE}</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total:</span>
+                <span>AED ${total}</span>
+            </div>
+            <button id="checkoutButton" class="checkout-btn">Thanh toán</button>
+        </div>
     `;
-    
-    updateCartSummary();
 }
 
-function updateCartSummary() {
-    const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const delivery = state.cart.length > 0 ? DELIVERY_FEE : 0;
-    const total = subtotal + delivery;
-    
-    document.getElementById('subtotalPrice').textContent = `${subtotal} AED`;
-    document.getElementById('deliveryPrice').textContent = `${delivery} AED`;
-    document.getElementById('totalPrice').textContent = `${total} AED`;
-}
-
-// Modal Management
+// UI Functions
 function showModal(modalId) {
-    document.getElementById(modalId).classList.add('active');
+    document.getElementById(modalId)?.classList.add('active');
 }
 
-function showLoading(show) {
-    elements.loadingSpinner.style.display = show ? 'flex' : 'none';
-}
-
-// Notification
 function showNotification(message, type = 'info') {
-    elements.notification.textContent = message;
-    elements.notification.className = `notification show ${type}`;
+    const notification = document.getElementById('notification');
+    if (!notification) return;
+    
+    notification.textContent = message;
+    notification.className = `notification ${type}`;
+    notification.style.display = 'block';
     
     setTimeout(() => {
-        elements.notification.classList.remove('show');
+        notification.style.display = 'none';
     }, 3000);
 }
 
-// Utility
-function debounce(func, delay) {
-    let timeout;
-    return function(...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func(...args), delay);
-    };
+function showLoading(show = true) {
+    if (elements.loadingSpinner) {
+        elements.loadingSpinner.style.display = show ? 'flex' : 'none';
+    }
+}
+
+function quickAddRestaurant(restaurantId, restaurantName) {
+    const restaurant = state.restaurants.find(r => r.id === restaurantId);
+    if (restaurant) {
+        addToCart({
+            id: restaurantId,
+            name: restaurantName,
+            price: 0,
+            image: restaurant.image,
+            restaurantId: restaurantId,
+            restaurantName: restaurantName
+        });
+    }
 }
