@@ -1,21 +1,3 @@
-function createLEDBalls() {
-    const container = document.body;
-    for (let i = 0; i < 3; i++) {
-        const ball = document.createElement('div');
-        ball.className = 'led-ball';
-        ball.style.animationDelay = `${i * 2.5}s`;
-        container.appendChild(ball);
-        
-        setTimeout(() => {
-            ball.remove();
-        }, 500 + (i * 2500));
-    }
-    
-    setInterval(() => {
-        createLEDBalls();
-    }, 7500);
-}
-
 // Show/Hide Loading
 function showLoading(show) {
     const spinner = document.getElementById('loading');

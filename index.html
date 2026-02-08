@@ -35,10 +35,10 @@
                         <input type="text" id="headerSearch" placeholder="Tìm sản phẩm..." class="header-search">
                         <span class="search-icon">🔍</span>
                     </div>
-                    <a href="/pages/search.html" class="nav-link">Tìm Kiếm</a>
-                    <a href="/pages/cart.html" class="nav-link">🛒 Giỏ Hàng</a>
-                    <a href="/pages/orders.html" class="nav-link">📦 Đơn Hàng</a>
-                    <a href="/pages/profile.html" class="nav-link">👤 Hồ Sơ</a>
+                    <a href="search.html" class="nav-link">Tìm Kiếm</a>
+                    <a href="cart.html" class="nav-link">🛒 Giỏ Hàng</a>
+                    <a href="orders.html" class="nav-link">📦 Đơn Hàng</a>
+                    <a href="profile.html" class="nav-link">👤 Hồ Sơ</a>
                 </div>
             </div>
 
@@ -90,24 +90,295 @@
                 </section>
             </section>
 
-    <!-- SCRIPTS -->
-    <script src="config.js"></script>
-    <script src="mock-data.js"></script>
-    <script src="api.js"></script>
-    <script src="search.js"></script>
-    <script src="cart.js"></script>
-    <script src="navbar.js"></script>
-    <script src="ui.js"></script>
-    <script src="animation.js"></script>
+            <!-- SEARCH PAGE -->
+            <section id="search-page" class="tab-content">
+                <div class="filters-section">
+                    <div class="search-section">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." class="main-search">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <div class="category-filter">
+                        <button class="category-btn active" onclick="filterCategory('all')">Tất Cả</button>
+                        <button class="category-btn" onclick="filterCategory('food')">Thực Phẩm</button>
+                        <button class="category-btn" onclick="filterCategory('fashion')">Quần Áo</button>
+                        <button class="category-btn" onclick="filterCategory('electronics')">Điện Tử</button>
+                        <button class="category-btn" onclick="filterCategory('home')">Đồ Gia Dụng</button>
+                    </div>
+                </div>
+                <div class="restaurants-grid" id="searchResults">
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #888;">
+                        <p>Nhập từ khóa tìm kiếm để xem kết quả</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CART PAGE -->
+            <section id="cart-page" class="tab-content">
+                <div class="cart-container">
+                    <h1 class="page-title">Giỏ Hàng</h1>
+                    <div class="cart-content">
+                        <div class="cart-items-section">
+                            <div class="empty-cart" id="emptyCartMsg">
+                                <div class="empty-icon">🛒</div>
+                                <h3 style="color: #f0f0f0;">Giỏ hàng trống</h3>
+                                <p>Hãy thêm sản phẩm vào giỏ hàng để tiếp tục</p>
+                                <button onclick="switchPage('home')" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; color: white; background: #FF006E; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">
+                                    Tiếp tục mua sắm
+                                </button>
+                            </div>
+                            <div id="cartItems"></div>
+                        </div>
+                        <div class="cart-summary-section">
+                            <div class="summary-title">Tóm Tắt Đơn Hàng</div>
+                            <div class="summary-row">
+                                <span>Tổng tiền hàng:</span>
+                                <span id="subtotal">0 AED</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Phí giao hàng:</span>
+                                <span id="shipping">0 AED</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Tổng cộng:</span>
+                                <span id="total">0 AED</span>
+                            </div>
+                            <button class="checkout-btn" id="checkoutBtn" disabled>Đặt Hàng</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ORDERS PAGE -->
+            <section id="orders-page" class="tab-content">
+                <div class="orders-container">
+                    <h1 class="page-title">Đơn Hàng Của Tôi</h1>
+                    <div class="orders-grid" id="ordersList">
+                        <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #888;">
+                            <p>Bạn chưa có đơn hàng nào</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROFILE PAGE -->
+            <section id="profile-page" class="tab-content">
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-avatar">👤</div>
+                        <div class="profile-name" id="profileName">Nguyễn Văn A</div>
+                        <div class="profile-email" id="profileEmail">nguyenvan@example.com</div>
+                        <button class="edit-btn" onclick="alert('Tính năng chỉnh sửa sẽ sớm có')">Chỉnh Sửa Hồ Sơ</button>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2 class="section-title">Thông Tin Cá Nhân</h2>
+                        <div class="info-group">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value" id="infoEmail">nguyenvan@example.com</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Số điện thoại:</span>
+                            <span class="info-value" id="infoPhone">+971 50 123 4567</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Thành phố:</span>
+                            <span class="info-value" id="infoCity">Dubai</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Địa chỉ:</span>
+                            <span class="info-value" id="infoAddress">123 Main Street, Dubai, UAE</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2 class="section-title">Thông Tin Tài Khoản</h2>
+                        <div class="info-group">
+                            <span class="info-label">Ngày tạo:</span>
+                            <span class="info-value" id="createdDate">15/01/2025</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Trạng thái:</span>
+                            <span class="info-value" id="accountStatus">Hoạt động</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Tổng đơn hàng:</span>
+                            <span class="info-value" id="totalOrders">0</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2 class="section-title">Liên Kết Nhanh</h2>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <button onclick="switchPage('orders')" style="padding: 1rem; background: #2d2d2d; border: none; border-radius: 0.5rem; text-align: center; color: #FF006E; text-decoration: none; font-weight: 600; cursor: pointer;">Đơn Hàng Của Tôi</button>
+                            <button onclick="switchPage('cart')" style="padding: 1rem; background: #2d2d2d; border: none; border-radius: 0.5rem; text-align: center; color: #FF006E; text-decoration: none; font-weight: 600; cursor: pointer;">Giỏ Hàng</button>
+                        </div>
+                    </div>
+
+                    <button class="logout-btn" onclick="handleLogout()">Đăng Xuất</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODALS -->
+    <!-- Product Detail Modal -->
+    <div id="restaurantModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content restaurant-modal">
+            <button class="modal-close">&times;</button>
+            <div id="restaurantContent"></div>
+        </div>
+    </div>
+
+    <!-- Cart Modal (Alternative view) -->
+    <div id="cartModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content cart-modal">
+            <button class="modal-close">&times;</button>
+            <div class="cart-body">
+                <div id="cartContent"></div>
+            </div>
+            <div class="cart-footer">
+                <div class="price-summary" id="priceSummary"></div>
+                <button id="checkoutBtn2" class="checkout-btn">Thanh toán</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS - Inlined to avoid 404 errors -->
+    <script>
+        // CONFIG
+        const RAPIDAPI_KEY = 'f95461abeemsh6e3039e52116ac7p152f3ajsnd300217a2f54';
+        const RAPIDAPI_HOST = 'talabat.p.rapidapi.com';
+        const DELIVERY_FEE = 5;
+
+        // DOM Elements
+        const elements = {
+            citySelect: document.getElementById('citySelect'),
+            headerSearch: document.getElementById('headerSearch'),
+            mainSearch: document.getElementById('mainSearch'),
+            sortSelect: document.getElementById('sortSelect'),
+            categoryBtns: document.querySelectorAll('.category-btn'),
+            restaurantsList: document.getElementById('restaurantsList'),
+            loadingSpinner: document.getElementById('loading'),
+            emptyState: document.getElementById('emptyState'),
+            cartButton: document.getElementById('cartButton'),
+            cartBadge: document.getElementById('cartBadge'),
+            restaurantModal: document.getElementById('restaurantModal'),
+            restaurantContent: document.getElementById('restaurantContent'),
+            cartModal: document.getElementById('cartModal'),
+            cartContent: document.getElementById('cartContent'),
+            notification: document.getElementById('notification'),
+        };
+
+        // Global State
+        const state = {
+            restaurants: [],
+            filteredRestaurants: [],
+            selectedRestaurant: null,
+            cart: [],
+            currentCity: 'Dubai',
+            searchQuery: '',
+            selectedCategory: 'all',
+            sortBy: 'popular'
+        };
+
+        // MOCK DATA
+        function getMockRestaurants() {
+            return [
+                // Food Category
+                { id: 1, name: 'Pizza Paradise', category: 'food', cuisines: ['Pizza'], rating: 4.8, deliveryTime: '25-35 mins', deliveryFee: 'AED 5', minOrder: 'AED 25', reviews: 1250, image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&h=300&fit=crop' },
+                { id: 2, name: 'Biryani House', category: 'food', cuisines: ['Asian'], rating: 4.6, deliveryTime: '30-40 mins', deliveryFee: 'AED 4', minOrder: 'AED 30', reviews: 980, image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop' },
+                { id: 3, name: 'Burger Barn', category: 'food', cuisines: ['Fast Food'], rating: 4.5, deliveryTime: '20-30 mins', deliveryFee: 'AED 3', minOrder: 'AED 20', reviews: 2100, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop' },
+                { id: 4, name: 'Sweet Cakes', category: 'food', cuisines: ['Desserts'], rating: 4.9, deliveryTime: '15-25 mins', deliveryFee: 'AED 2', minOrder: 'AED 15', reviews: 750, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop' },
+                { id: 5, name: 'Sushi Master', category: 'food', cuisines: ['Asian'], rating: 4.7, deliveryTime: '35-45 mins', deliveryFee: 'AED 6', minOrder: 'AED 35', reviews: 890, image: 'https://images.unsplash.com/photo-1553861519-cdde9b8ec4a5?w=400&h=300&fit=crop' },
+                
+                // Fashion Category
+                { id: 6, name: 'Style Hub', category: 'fashion', cuisines: ['Áo khoác'], rating: 4.7, deliveryTime: '1-2 ngày', deliveryFee: 'AED 8', minOrder: 'AED 50', reviews: 2340, image: 'https://images.unsplash.com/photo-1554521722-7be0672eef4d?w=400&h=300&fit=crop' },
+                { id: 7, name: 'Urban Threads', category: 'fashion', cuisines: ['Quần jeans'], rating: 4.6, deliveryTime: '1-2 ngày', deliveryFee: 'AED 7', minOrder: 'AED 45', reviews: 1890, image: 'https://images.unsplash.com/photo-1542272604-787c62d465d1?w=400&h=300&fit=crop' },
+                { id: 8, name: 'Premium Wear', category: 'fashion', cuisines: ['Áo nam'], rating: 4.8, deliveryTime: '1-2 ngày', deliveryFee: 'AED 9', minOrder: 'AED 60', reviews: 3100, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop' },
+                
+                // Electronics Category
+                { id: 9, name: 'Tech Store', category: 'electronics', cuisines: ['Điện thoại'], rating: 4.9, deliveryTime: '2-3 ngày', deliveryFee: 'AED 15', minOrder: 'AED 200', reviews: 4500, image: 'https://images.unsplash.com/photo-1511707267537-b85faf00021e?w=400&h=300&fit=crop' },
+                { id: 10, name: 'Gadget Zone', category: 'electronics', cuisines: ['Tai nghe'], rating: 4.7, deliveryTime: '1-2 ngày', deliveryFee: 'AED 10', minOrder: 'AED 80', reviews: 2800, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop' },
+                { id: 11, name: 'Smart Electronics', category: 'electronics', cuisines: ['Máy tính'], rating: 4.8, deliveryTime: '2-3 ngày', deliveryFee: 'AED 18', minOrder: 'AED 300', reviews: 3200, image: 'https://images.unsplash.com/photo-1588872657840-218e412ee91e?w=400&h=300&fit=crop' },
+                
+                // Home Goods Category
+                { id: 12, name: 'Home Comfort', category: 'home', cuisines: ['Đệm'], rating: 4.6, deliveryTime: '3-5 ngày', deliveryFee: 'AED 20', minOrder: 'AED 150', reviews: 1950, image: 'https://images.unsplash.com/photo-1554995207-c18210cc9b1d?w=400&h=300&fit=crop' },
+                { id: 13, name: 'Interior Bliss', category: 'home', cuisines: ['Bàn'], rating: 4.7, deliveryTime: '3-5 ngày', deliveryFee: 'AED 25', minOrder: 'AED 200', reviews: 2600, image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop' },
+                { id: 14, name: 'Living Essentials', category: 'home', cuisines: ['Ghế'], rating: 4.8, deliveryTime: '3-5 ngày', deliveryFee: 'AED 22', minOrder: 'AED 180', reviews: 3400, image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop' },
+                
+                // Medicine Category
+                { id: 15, name: 'PharmaCare', category: 'medicine', cuisines: ['Vitamin'], rating: 4.9, deliveryTime: '30-45 mins', deliveryFee: 'AED 3', minOrder: 'AED 20', reviews: 3450, image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde0f?w=400&h=300&fit=crop' },
+                { id: 16, name: 'Health Plus', category: 'medicine', cuisines: ['Thuốc'], rating: 4.7, deliveryTime: '45-60 mins', deliveryFee: 'AED 4', minOrder: 'AED 30', reviews: 2100, image: 'https://images.unsplash.com/photo-1576091160550-112173f7f869?w=400&h=300&fit=crop' },
+                
+                // Beauty Category
+                { id: 17, name: 'Beauty Glow', category: 'beauty', cuisines: ['Skincare'], rating: 4.8, deliveryTime: '1-2 ngày', deliveryFee: 'AED 6', minOrder: 'AED 40', reviews: 2890, image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=300&fit=crop' },
+                { id: 18, name: 'Makeup Studio', category: 'beauty', cuisines: ['Makeup'], rating: 4.6, deliveryTime: '1-2 ngày', deliveryFee: 'AED 7', minOrder: 'AED 50', reviews: 1980, image: 'https://images.unsplash.com/photo-1599599810694-b3a7f1d88416?w=400&h=300&fit=crop' },
+                
+                // Accessories Category
+                { id: 19, name: 'Fashion Corner', category: 'accessories', cuisines: ['Túi'], rating: 4.7, deliveryTime: '1-2 ngày', deliveryFee: 'AED 8', minOrder: 'AED 55', reviews: 2340, image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=300&fit=crop' },
+                { id: 20, name: 'Accessory Hub', category: 'accessories', cuisines: ['Trang sức'], rating: 4.5, deliveryTime: '1-2 ngày', deliveryFee: 'AED 9', minOrder: 'AED 60', reviews: 1650, image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&h=300&fit=crop' },
+                
+                // Sports Category
+                { id: 21, name: 'Sports Zone', category: 'sports', cuisines: ['Giày'], rating: 4.8, deliveryTime: '2-3 ngày', deliveryFee: 'AED 12', minOrder: 'AED 100', reviews: 3200, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop' },
+                { id: 22, name: 'Athlete Store', category: 'sports', cuisines: ['Quần áo'], rating: 4.6, deliveryTime: '2-3 ngày', deliveryFee: 'AED 11', minOrder: 'AED 90', reviews: 2100, image: 'https://images.unsplash.com/photo-1518611505868-48b60c3ec1d3?w=400&h=300&fit=crop' }
+            ];
+        }
+
+        function getMockMenu(restaurantId) {
+            const menus = {
+                1: [ 
+                    { id: 101, name: 'Margherita', description: 'Mozzarella, tomato, basil', price: 35, image: 'https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=200&h=200&fit=crop' },
+                    { id: 102, name: 'Pepperoni', description: 'Pepperoni pizza', price: 45, image: 'https://images.unsplash.com/photo-1628840042765-356cda07f423?w=200&h=200&fit=crop' }
+                ],
+                2: [
+                    { id: 201, name: 'Chicken Biryani', description: 'Spiced chicken with basmati rice', price: 50, image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=200&h=200&fit=crop' },
+                    { id: 202, name: 'Mutton Biryani', description: 'Lamb biryani', price: 60, image: 'https://images.unsplash.com/photo-1633686976498-2f96e51ee33d?w=200&h=200&fit=crop' }
+                ]
+            };
+            return menus[restaurantId] || [];
+        }
+    </script>
+
     <script src="main.js"></script>
 
     <script>
-        // Global helper function
-        window.filterCategory = function(category) {
-            if (window.appRouter) {
-                window.appRouter.filterByCategory(category);
+        // Initialize app after all scripts loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('[v0] Initializing DarkHub app...');
+            
+            // Category navigation
+            const categoryNavItems = document.querySelectorAll('.category-nav-item');
+            categoryNavItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    categoryNavItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    state.selectedCategory = item.dataset.category;
+                    filterAndSortRestaurants();
+                });
+            });
+
+            // Search boxes
+            const mainSearch = document.getElementById('mainSearch');
+            const headerSearch = document.getElementById('headerSearch');
+            if (mainSearch) {
+                mainSearch.addEventListener('input', (e) => {
+                    state.searchQuery = e.target.value.toLowerCase();
+                    filterAndSortRestaurants();
+                });
             }
-        };
+            if (headerSearch) {
+                headerSearch.addEventListener('input', (e) => {
+                    state.searchQuery = e.target.value.toLowerCase();
+                    filterAndSortRestaurants();
+                });
+            }
+
+            // Load data
+            loadRestaurants();
+        });
     </script>
 </body>
 </html>

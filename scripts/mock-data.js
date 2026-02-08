@@ -1,3 +1,4 @@
+
 function getMockRestaurants() {
     return [
         // Food Category
