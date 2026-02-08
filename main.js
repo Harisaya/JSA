@@ -210,28 +210,78 @@ function showLoading(show) {
 async function loadRestaurants() {
     showLoading(true);
     
-    // Simulate API delay for demo
-    await new Promise(resolve => setTimeout(resolve, 800));
-    
     try {
-        // Using mock data for now (RapidAPI Talabat requires premium)
-        // In production, replace with actual API call:
-        // const options = {
-        //     method: 'GET',
-        //     headers: {
-        //         'x-rapidapi-key': RAPIDAPI_KEY,
-        //         'x-rapidapi-host': RAPIDAPI_HOST
-        //     }
-        // };
-        // const response = await fetch(`https://${RAPIDAPI_HOST}/restaurants?city=${state.currentCity}`, options);
-        // const data = await response.json();
+        const options = {
+            method: 'GET',
+            headers: {
+                'x-rapidapi-key': RAPIDAPI_KEY,
+                'x-rapidapi-host': RAPIDAPI_HOST
+            }
+        };
         
-        state.restaurants = getMockRestaurants();
+        console.log('[v0] Fetching products from API...');
+        
+        // Using product-search endpoint - works with groceries category
+        const response = await fetch(
+            `https://${RAPIDAPI_HOST}/product-search?category=groceries&dhVendorId=f0144add-5e28-4c15-aa22-65d8225f3eb7&country=uae&query=shop`,
+            options
+        );
+        
+        console.log('[v0] API Response Status:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`API error: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('[v0] API Response:', data);
+        console.log('[v0] data.data type:', typeof data.data);
+        console.log('[v0] data.data:', data.data);
+        
+        // Parse API response - handle both array and object cases
+        let items = [];
+        
+        if (data.data && Array.isArray(data.data)) {
+            items = data.data;
+        } else if (data.data && typeof data.data === 'object') {
+            // If data.data is an object, try to extract array from it
+            const possibleArrays = Object.values(data.data).find(val => Array.isArray(val));
+            if (possibleArrays) {
+                items = possibleArrays;
+            } else if (data.data.items && Array.isArray(data.data.items)) {
+                items = data.data.items;
+            } else if (data.data.products && Array.isArray(data.data.products)) {
+                items = data.data.products;
+            } else {
+                console.log('[v0] data.data keys:', Object.keys(data.data));
+                items = [];
+            }
+        }
+        
+        if (items.length > 0) {
+            state.restaurants = items.map((item, idx) => ({
+                id: item.id || idx,
+                name: item.name || item.title || 'Product',
+                category: 'groceries',
+                cuisines: [item.category || 'Grocery Items'],
+                rating: item.rating || 4.5,
+                deliveryTime: '30-40 mins',
+                deliveryFee: 'AED 5',
+                minOrder: 'AED 30',
+                reviews: item.reviewCount || 0,
+                image: item.imageUrl || item.image || 'https://via.placeholder.com/400x300',
+                price: item.price || 0
+            }));
+            console.log('[v0] Successfully loaded', state.restaurants.length, 'products from API');
+        } else {
+            throw new Error('No items found in API response');
+        }
+        
         state.filteredRestaurants = [...state.restaurants];
-        console.log('[v0] Loaded', state.restaurants.length, 'restaurants');
         renderRestaurants();
     } catch (error) {
-        console.log('[v0] Error loading data:', error.message);
+        console.log('[v0] Error loading from API:', error.message);
+        console.log('[v0] Falling back to mock data');
         state.restaurants = getMockRestaurants();
         state.filteredRestaurants = [...state.restaurants];
         renderRestaurants();
@@ -339,7 +389,7 @@ function renderRestaurants() {
     elements.restaurantsList.innerHTML = state.filteredRestaurants.map(restaurant => `
         <a href="product-detail.html?id=${restaurant.id}" style="text-decoration:none; color:inherit;">
             <div class="restaurant-card" style="cursor:pointer;">
-                <img src="${restaurant.image}" alt="${restaurant.name}" class="restaurant-image">
+                    <img src="${restaurant.image}" alt="${restaurant.name}" class="restaurant-image" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x300?text=Image+Unavailable'">
                 <div class="restaurant-body">
                     <div class="restaurant-header">
                         <h3 class="restaurant-name">${restaurant.name}</h3>
