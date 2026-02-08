@@ -1,9 +1,76 @@
-// Note: CONFIG, STATE, ELEMENTS, and MOCK DATA are defined in index.html
-// Main.js only contains the functional code
+// ==================== CONFIG ====================
+const RAPIDAPI_KEY = 'f95461abeemsh6e3039e52116ac7p152f3ajsnd300217a2f54';
+const RAPIDAPI_HOST = 'talabat.p.rapidapi.com';
+const API_BASE = 'https://api.example.com';
+const DELIVERY_FEE = 5;
 
-// Initialize
+// ==================== DOM ELEMENTS ====================
+const elements = {
+    citySelect: document.getElementById('citySelect'),
+    headerSearch: document.getElementById('headerSearch'),
+    mainSearch: document.getElementById('mainSearch'),
+    sortSelect: document.getElementById('sortSelect'),
+    categoryBtns: document.querySelectorAll('.category-btn'),
+    restaurantsList: document.getElementById('restaurantsList'),
+    loadingSpinner: document.getElementById('loading'),
+    emptyState: document.getElementById('emptyState'),
+    cartButton: document.getElementById('cartButton'),
+    cartBadge: document.getElementById('cartBadge'),
+    restaurantModal: document.getElementById('restaurantModal'),
+    restaurantContent: document.getElementById('restaurantContent'),
+    cartModal: document.getElementById('cartModal'),
+    cartContent: document.getElementById('cartContent'),
+    notification: document.getElementById('notification'),
+};
+
+// ==================== GLOBAL STATE ====================
+const state = {
+    restaurants: [],
+    filteredRestaurants: [],
+    selectedRestaurant: null,
+    cart: [],
+    currentCity: 'Dubai',
+    searchQuery: '',
+    selectedCategory: 'all',
+    sortBy: 'popular'
+};
+
+// ==================== INITIALIZE ====================
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('[v0] Initializing DarkHub app...');
+    
+    // Category navigation
+    const categoryNavItems = document.querySelectorAll('.category-nav-item');
+    categoryNavItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            categoryNavItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            state.selectedCategory = item.dataset.category;
+            filterAndSortRestaurants();
+        });
+    });
+
+    // Search boxes
+    const mainSearch = document.getElementById('mainSearch');
+    const headerSearch = document.getElementById('headerSearch');
+    if (mainSearch) {
+        mainSearch.addEventListener('input', (e) => {
+            state.searchQuery = e.target.value.toLowerCase();
+            filterAndSortRestaurants();
+        });
+    }
+    if (headerSearch) {
+        headerSearch.addEventListener('input', (e) => {
+            state.searchQuery = e.target.value.toLowerCase();
+            filterAndSortRestaurants();
+        });
+    }
+
+    // Setup additional event listeners
     setupEventListeners();
+    
+    // Load data
     loadRestaurants();
 });
 
@@ -54,7 +121,11 @@ function getMockMenu(restaurantId) {
 
 // Event Listeners
 function setupEventListeners() {
-    window.elements.cartButton.addEventListener('click', showCartModal);
+    // Cart button - use optional chaining
+    const cartBtn = document.getElementById('cartButton');
+    if (cartBtn) {
+        cartBtn.addEventListener('click', showCartModal);
+    }
     
     // Modal close
     document.querySelectorAll('.modal-close').forEach(btn => {
@@ -67,28 +138,31 @@ function setupEventListeners() {
     });
     
     // Checkout
-    document.getElementById('checkoutButton')?.addEventListener('click', handleCheckout);
+    const checkoutBtn = document.getElementById('checkoutButton');
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', handleCheckout);
+    }
 }
 
 function handleCityChange(e) {
-    window.state.selectedCity = e.target.value;
+    state.selectedCity = e.target.value;
     loadRestaurants();
 }
 
 function handleSearch(e) {
-    window.state.searchQuery = e.target.value.toLowerCase();
+    state.searchQuery = e.target.value.toLowerCase();
     displayRestaurants();
 }
 
 function handleSort(e) {
-    window.state.sortBy = e.target.value;
+    state.sortBy = e.target.value;
     displayRestaurants();
 }
 
 function handleCategoryFilter(e) {
     window.filterTags.forEach(t => t.classList.remove('active'));
     e.target.classList.add('active');
-    window.state.selectedCategory = e.target.dataset.filter;
+    state.selectedCategory = e.target.dataset.filter;
     displayRestaurants();
 }
 
@@ -127,8 +201,8 @@ function showNotification(message, type = 'info') {
 
 // Show/Hide Loading Spinner
 function showLoading(show) {
-    if (window.elements.loadingSpinner) {
-        window.elements.loadingSpinner.style.display = show ? 'flex' : 'none';
+    if (elements.loadingSpinner) {
+        elements.loadingSpinner.style.display = show ? 'flex' : 'none';
     }
 }
 
@@ -152,14 +226,14 @@ async function loadRestaurants() {
         // const response = await fetch(`https://${RAPIDAPI_HOST}/restaurants?city=${state.currentCity}`, options);
         // const data = await response.json();
         
-        window.state.restaurants = getMockRestaurants();
-        window.state.filteredRestaurants = [...window.state.restaurants];
-        console.log('[v0] Loaded', window.state.restaurants.length, 'restaurants');
+        state.restaurants = getMockRestaurants();
+        state.filteredRestaurants = [...state.restaurants];
+        console.log('[v0] Loaded', state.restaurants.length, 'restaurants');
         renderRestaurants();
     } catch (error) {
         console.log('[v0] Error loading data:', error.message);
-        window.state.restaurants = getMockRestaurants();
-        window.state.filteredRestaurants = [...window.state.restaurants];
+        state.restaurants = getMockRestaurants();
+        state.filteredRestaurants = [...state.restaurants];
         renderRestaurants();
     } finally {
         showLoading(false);
@@ -168,7 +242,7 @@ async function loadRestaurants() {
 
 async function loadRestaurantMenu(restaurantId) {
     try {
-        const response = await fetch(`${window.API_BASE}/restaurant/${restaurantId}/menu`);
+        const response = await fetch(`${API_BASE}/restaurant/${restaurantId}/menu`);
         const data = await response.json();
         return data.menu || getMockMenu(restaurantId);
     } catch (error) {
@@ -181,31 +255,31 @@ async function loadRestaurantMenu(restaurantId) {
 
 // Filtering & Sorting
 function filterAndSortRestaurants() {
-    let filtered = [...window.state.restaurants];
+    let filtered = [...state.restaurants];
     
     // Search filter
-    if (window.state.searchQuery) {
+    if (state.searchQuery) {
         filtered = filtered.filter(r => 
-            r.name.toLowerCase().includes(window.state.searchQuery) ||
-            r.cuisines?.some(c => c.toLowerCase().includes(window.state.searchQuery))
+            r.name.toLowerCase().includes(state.searchQuery) ||
+            r.cuisines?.some(c => c.toLowerCase().includes(state.searchQuery))
         );
     }
     
     // Category filter
-    if (window.state.selectedCategory !== 'all') {
+    if (state.selectedCategory !== 'all') {
         const categoryMap = {
             'food': 'food',
             'fashion': 'fashion',
             'electronics': 'electronics',
             'home': 'home'
         };
-        const categoryName = categoryMap[window.state.selectedCategory];
+        const categoryName = categoryMap[state.selectedCategory];
         filtered = filtered.filter(r => r.category === categoryName);
     }
     
     // Sort
     filtered.sort((a, b) => {
-        switch(window.state.sortBy) {
+        switch(state.sortBy) {
             case 'rating':
                 return (b.rating || 0) - (a.rating || 0);
             case 'delivery':
@@ -222,7 +296,7 @@ function filterAndSortRestaurants() {
         }
     });
     
-    window.state.filteredRestaurants = filtered;
+    state.filteredRestaurants = filtered;
     renderRestaurants();
 }
 
@@ -235,7 +309,7 @@ function displayRestaurants() {
 function sortRestaurants(restaurants) {
     const sorted = [...restaurants];
 
-    switch(window.state.sortBy) {
+    switch(state.sortBy) {
         case 'rating':
             return sorted.sort((a, b) => b.rating - a.rating);
         case 'delivery':
@@ -253,16 +327,16 @@ function sortRestaurants(restaurants) {
 
 // Rendering
 function renderRestaurants() {
-    if (window.state.filteredRestaurants.length === 0) {
-        window.elements.restaurantsList.style.display = 'none';
-        window.elements.emptyState.style.display = 'block';
+    if (state.filteredRestaurants.length === 0) {
+        elements.restaurantsList.style.display = 'none';
+        elements.emptyState.style.display = 'block';
         return;
     }
     
-    window.elements.restaurantsList.style.display = 'grid';
-    window.elements.emptyState.style.display = 'none';
+    elements.restaurantsList.style.display = 'grid';
+    elements.emptyState.style.display = 'none';
     
-    window.elements.restaurantsList.innerHTML = window.state.filteredRestaurants.map(restaurant => `
+    elements.restaurantsList.innerHTML = state.filteredRestaurants.map(restaurant => `
         <a href="product-detail.html?id=${restaurant.id}" style="text-decoration:none; color:inherit;">
             <div class="restaurant-card" style="cursor:pointer;">
                 <img src="${restaurant.image}" alt="${restaurant.name}" class="restaurant-image">
@@ -313,13 +387,13 @@ function renderRestaurants() {
 
 // Show restaurant detail in modal
 async function showRestaurantDetail(restaurantId) {
-    const restaurant = window.state.restaurants.find(r => r.id === restaurantId);
+    const restaurant = state.restaurants.find(r => r.id === restaurantId);
     if (!restaurant) return;
     
-    window.state.selectedRestaurant = restaurant;
+    state.selectedRestaurant = restaurant;
     const menu = await loadRestaurantMenu(restaurantId);
     
-    window.elements.restaurantContent.innerHTML = `
+    elements.restaurantContent.innerHTML = `
         <div class="restaurant-detail">
             <div class="detail-header">
                 <img src="${restaurant.image}" alt="${restaurant.name}" class="detail-image">
@@ -359,17 +433,17 @@ async function showRestaurantDetail(restaurantId) {
         </div>
     `;
     
-    window.elements.restaurantModal.classList.add('active');
+    elements.restaurantModal.classList.add('active');
 }
 
 // Cart Management
 function addToCart(item) {
-    const existingItem = window.state.cart.find(i => i.id === item.id);
+    const existingItem = state.cart.find(i => i.id === item.id);
     
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        window.state.cart.push({
+        state.cart.push({
             ...item,
             quantity: 1
         });
@@ -380,13 +454,13 @@ function addToCart(item) {
 }
 
 function removeFromCart(itemId) {
-    window.state.cart = window.state.cart.filter(i => i.id !== itemId);
+    state.cart = state.cart.filter(i => i.id !== itemId);
     updateCart();
     renderCart();
 }
 
 function updateQuantity(itemId, quantity) {
-    const item = window.state.cart.find(i => i.id === itemId);
+    const item = state.cart.find(i => i.id === itemId);
     if (item) {
         item.quantity = Math.max(1, quantity);
         updateCart();
@@ -395,22 +469,22 @@ function updateQuantity(itemId, quantity) {
 }
 
 function updateCart() {
-    const count = window.state.cart.reduce((sum, item) => sum + item.quantity, 0);
-    window.elements.cartBadge.textContent = count;
-    window.elements.cartBadge.style.display = count > 0 ? 'flex' : 'none';
+    const count = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+    elements.cartBadge.textContent = count;
+    elements.cartBadge.style.display = count > 0 ? 'flex' : 'none';
 }
 
 function renderCart() {
-    if (window.state.cart.length === 0) {
-        window.elements.cartContent.innerHTML = '<p style="text-align: center; color: #999;">Giỏ hàng trống</p>';
+    if (state.cart.length === 0) {
+        elements.cartContent.innerHTML = '<p style="text-align: center; color: #999;">Giỏ hàng trống</p>';
         return;
     }
     
-    const total = window.state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + window.DELIVERY_FEE;
+    const total = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + DELIVERY_FEE;
     
-    window.elements.cartContent.innerHTML = `
+    elements.cartContent.innerHTML = `
         <div class="cart-list">
-            ${window.state.cart.map(item => `
+            ${state.cart.map(item => `
                 <div class="cart-item">
                     <img src="${item.image}" alt="${item.name}" class="cart-item-image">
                     <div class="cart-item-content">
@@ -429,11 +503,11 @@ function renderCart() {
         <div class="cart-summary">
             <div class="summary-row">
                 <span>Subtotal:</span>
-                <span>AED ${window.state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)}</span>
+                <span>AED ${state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)}</span>
             </div>
             <div class="summary-row">
                 <span>Delivery:</span>
-                <span>AED ${window.DELIVERY_FEE}</span>
+                <span>AED ${DELIVERY_FEE}</span>
             </div>
             <div class="summary-row total">
                 <span>Total:</span>
@@ -449,34 +523,7 @@ function showModal(modalId) {
     document.getElementById(modalId)?.classList.add('active');
 }
 
-const API_BASE = 'https://rapidapi.com/'; // Replace with actual API base URL
-const DELIVERY_FEE = 5; // Define DELIVERY_FEE
-
 function handleCheckout() {
     // Checkout logic here
     showNotification('Checkout process initiated!', 'success');
 }
-
-// Declare global variables
-window.state = {
-    selectedCity: '',
-    searchQuery: '',
-    sortBy: 'popular',
-    selectedCategory: 'all',
-    restaurants: [],
-    filteredRestaurants: [],
-    cart: []
-};
-
-window.elements = {
-    cartButton: document.getElementById('cartButton'),
-    loadingSpinner: document.getElementById('loadingSpinner'),
-    restaurantsList: document.getElementById('restaurantsList'),
-    emptyState: document.getElementById('emptyState'),
-    cartContent: document.getElementById('cartContent'),
-    cartBadge: document.getElementById('cartBadge'),
-    restaurantContent: document.getElementById('restaurantContent'),
-    restaurantModal: document.getElementById('restaurantModal')
-};
-
-window.filterTags = document.querySelectorAll('.filter-tag');
