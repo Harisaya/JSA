@@ -293,8 +293,14 @@ async function loadRestaurants() {
 async function loadRestaurantMenu(restaurantId) {
     try {
         const response = await fetch(`${API_BASE}/restaurant/${restaurantId}/menu`);
+
+        if (!response.ok) {
+            throw new Error(`Menu API error: ${response.status}`);
+        }
+
         const data = await response.json();
         return data.menu || getMockMenu(restaurantId);
+
     } catch (error) {
         console.error('[v0] Error loading menu:', error);
         return getMockMenu(restaurantId);
