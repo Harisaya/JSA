@@ -5,126 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giỏ Hàng - DarkHub</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .cart-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-
-        .page-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #f0f0f0;
-            margin-bottom: 2rem;
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #FF006E;
-            text-decoration: none;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        .cart-content {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 2rem;
-        }
-
-        .cart-items-section {
-            background: #1a1a1a;
-            border: 1px solid #2d2d2d;
-            border-radius: 1rem;
-            padding: 1.5rem;
-        }
-
-        .cart-summary-section {
-            background: #1a1a1a;
-            border: 1px solid #2d2d2d;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            height: fit-content;
-        }
-
-        .summary-title {
-            font-weight: 700;
-            color: #f0f0f0;
-            margin-bottom: 1rem;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #2d2d2d;
-            color: #888;
-            font-size: 0.9rem;
-        }
-
-        .summary-row.total {
-            border-bottom: none;
-            padding-top: 1rem;
-            font-weight: 700;
-            color: #FF006E;
-            font-size: 1rem;
-        }
-
-        .checkout-btn {
-            width: 100%;
-            margin-top: 1.5rem;
-            padding: 0.75rem;
-            background: linear-gradient(135deg, #FF006E 0%, #8338EC 100%);
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .checkout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(255, 0, 110, 0.3);
-        }
-
-        .empty-cart {
-            text-align: center;
-            padding: 3rem;
-            color: #888;
-        }
-
-        .empty-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .cart-content {
-                grid-template-columns: 1fr;
-            }
-
-            .cart-summary-section {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                border-radius: 1rem 1rem 0 0;
-                max-height: 40vh;
-            }
-
-            .cart-items-section {
-                margin-bottom: 30vh;
-            }
-        }
-    </style>
 </head>
 <body>
     <div class="app">
@@ -135,51 +15,146 @@
                     <span class="logo-text">DarkHub</span>
                 </div>
                 <div class="header-right">
-                    <a href="index.html" class="nav-link">Trang Chủ</a>
-                    <a href="search.html" class="nav-link">Tìm Kiếm</a>
-                    <a href="orders.html" class="nav-link">Đơn Hàng</a>
-                    <a href="profile.html" class="nav-link">Hồ Sơ</a>
+                    <a href="index.html" class="nav-link" style="color: #f0f0f0; text-decoration: none; font-weight: 500; transition: color 0.3s;">Trang Chủ</a>
+                    <a href="search.html" class="nav-link" style="color: #f0f0f0; text-decoration: none; font-weight: 500; transition: color 0.3s;">Tìm Kiếm</a>
+                    <a href="orders.html" class="nav-link" style="color: #f0f0f0; text-decoration: none; font-weight: 500; transition: color 0.3s;">Đơn Hàng</a>
+                    <a href="profile.html" class="nav-link" style="color: #f0f0f0; text-decoration: none; font-weight: 500; transition: color 0.3s;">Hồ Sơ</a>
                 </div>
             </div>
         </header>
 
+        <nav id="navbar" class="navbar"></nav>
+
         <main class="main-content">
-            <a href="../index-new.html" class="back-link">← Quay lại</a>
-            
-            <div class="cart-container">
-                <h1 class="page-title">Giỏ Hàng</h1>
+            <div style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
+                <a href="index.html" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #FF006E; text-decoration: none; margin-bottom: 1rem; font-weight: 600;">← Quay lại</a>
                 
-                <div class="cart-content">
-                    <div class="cart-items-section">
-                        <div class="empty-cart">
-                            <div class="empty-icon">🛒</div>
-                            <h3 style="color: #f0f0f0;">Giỏ hàng trống</h3>
-                            <p>Hãy thêm sản phẩm vào giỏ hàng để tiếp tục</p>
-                            <a href="../index-new.html" style="display: inline-block; margin-top: 1rem; color: #FF006E; text-decoration: none; font-weight: 600;">
-                                Tiếp tục mua sắm
-                            </a>
+                <h1 style="font-size: 2rem; font-weight: 700; color: #f0f0f0; margin-bottom: 2rem;">Giỏ Hàng</h1>
+                
+                <div style="display: grid; grid-template-columns: 1fr 300px; gap: 2rem;">
+                    <!-- Cart Items -->
+                    <div style="background: #1a1a1a; border: 1px solid #2d2d2d; border-radius: 1rem; padding: 1.5rem;">
+                        <div id="cartItems">
+                            <div style="text-align: center; padding: 3rem; color: #888;">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">🛒</div>
+                                <h3 style="color: #f0f0f0;">Giỏ hàng trống</h3>
+                                <p>Hãy thêm sản phẩm vào giỏ hàng để tiếp tục</p>
+                                <a href="index.html" style="display: inline-block; margin-top: 1rem; color: #FF006E; text-decoration: none; font-weight: 600;">Tiếp tục mua sắm</a>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="cart-summary-section">
-                        <div class="summary-title">Tóm Tắt Đơn Hàng</div>
-                        <div class="summary-row">
+                    <!-- Cart Summary -->
+                    <div style="background: #1a1a1a; border: 1px solid #2d2d2d; border-radius: 1rem; padding: 1.5rem; height: fit-content;">
+                        <div style="font-weight: 700; color: #f0f0f0; margin-bottom: 1rem;">Tóm Tắt Đơn Hàng</div>
+                        
+                        <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #2d2d2d; color: #888; font-size: 0.9rem;">
                             <span>Tổng tiền hàng:</span>
-                            <span>0 AED</span>
+                            <span id="subtotalPrice">0 AED</span>
                         </div>
-                        <div class="summary-row">
+                        
+                        <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #2d2d2d; color: #888; font-size: 0.9rem;">
                             <span>Phí giao hàng:</span>
-                            <span>0 AED</span>
+                            <span id="deliveryPrice">0 AED</span>
                         </div>
-                        <div class="summary-row total">
+                        
+                        <div style="display: flex; justify-content: space-between; border-bottom: none; padding-top: 1rem; font-weight: 700; color: #FF006E; font-size: 1rem;">
                             <span>Tổng cộng:</span>
-                            <span>0 AED</span>
+                            <span id="totalPrice">0 AED</span>
                         </div>
-                        <button class="checkout-btn" disabled>Đặt Hàng</button>
+                        
+                        <button id="checkoutButton" onclick="handleCheckout()" style="width: 100%; margin-top: 1.5rem; padding: 0.75rem; background: linear-gradient(135deg, #FF006E 0%, #8338EC 100%); color: white; border: none; border-radius: 0.5rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;" disabled>
+                            Đặt Hàng
+                        </button>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="animation.js"></script>
+    <script src="navbar.js"></script>
+    <script src="cart.js"></script>
+    
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('[v0] Cart page initialized');
+            initNavbar();
+            renderPageCart();
+            
+            // Add hover effect to nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('mouseover', () => link.style.color = '#FF006E');
+                link.addEventListener('mouseout', () => link.style.color = '#f0f0f0');
+            });
+        });
+
+        // Render cart for cart.html page
+        function renderPageCart() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            
+            if (state.cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: #888;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🛒</div>
+                        <h3 style="color: #f0f0f0;">Giỏ hàng trống</h3>
+                        <p>Hãy thêm sản phẩm vào giỏ hàng để tiếp tục</p>
+                        <a href="index.html" style="display: inline-block; margin-top: 1rem; color: #FF006E; text-decoration: none; font-weight: 600;">Tiếp tục mua sắm</a>
+                    </div>
+                `;
+                document.getElementById('checkoutButton').disabled = true;
+                updatePageCartSummary();
+                return;
+            }
+
+            cartItemsContainer.innerHTML = `
+                <div>
+                    ${state.cart.map(item => `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #2d2d2d; border-radius: 0.5rem; margin-bottom: 1rem; border: 1px solid #3a3a3a;">
+                            <div style="flex: 1;">
+                                <div style="color: #f0f0f0; font-weight: 600; margin-bottom: 0.25rem;">${item.name}</div>
+                                <div style="color: #999; font-size: 0.9rem;">AED ${item.price}</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <button onclick="updateItemQuantity('${item.id}', ${item.quantity - 1})" style="width: 28px; height: 28px; background: #1a1a1a; border: 1px solid #3a3a3a; color: #f0f0f0; border-radius: 0.3rem; cursor: pointer; font-weight: 600;">−</button>
+                                <span style="width: 30px; text-align: center; color: #f0f0f0; font-weight: 600;">${item.quantity}</span>
+                                <button onclick="updateItemQuantity('${item.id}', ${item.quantity + 1})" style="width: 28px; height: 28px; background: #1a1a1a; border: 1px solid #3a3a3a; color: #f0f0f0; border-radius: 0.3rem; cursor: pointer; font-weight: 600;">+</button>
+                                <button onclick="removeFromCart('${item.id}')" style="padding: 0.4rem 0.8rem; background: #6A0572; color: white; border: none; border-radius: 0.3rem; cursor: pointer; font-size: 0.8rem; margin-left: 0.5rem;">Xóa</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            document.getElementById('checkoutButton').disabled = false;
+            updatePageCartSummary();
+        }
+
+        // Update cart summary
+        function updatePageCartSummary() {
+            const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const delivery = state.cart.length > 0 ? 5 : 0;
+            const total = subtotal + delivery;
+            
+            document.getElementById('subtotalPrice').textContent = subtotal + ' AED';
+            document.getElementById('deliveryPrice').textContent = delivery + ' AED';
+            document.getElementById('totalPrice').textContent = total + ' AED';
+        }
+
+        // Handle checkout
+        function handleCheckout() {
+            if (state.cart.length === 0) return;
+            
+            const total = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + 5;
+            alert(`Đặt hàng thành công! Tổng: ${total} AED`);
+            
+            state.cart = [];
+            localStorage.setItem('cart', JSON.stringify(state.cart));
+            renderPageCart();
+        }
+    </script>
 </body>
 </html>

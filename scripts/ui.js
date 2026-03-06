@@ -49,9 +49,9 @@ function renderProducts() {
                     <div class="info-item"><span>📍</span><strong>Min: ${product.minOrder || 'AED 30'}</strong></div>
                     <div class="info-item"><span>👥</span><strong>${product.reviews || 0} reviews</strong></div>
                 </div>
-                <div class="restaurant-actions">
-                    <button class="view-menu-btn" onclick="window.showProductDetail('${product.id}')">Xem Chi Tiết</button>
-                </div>
+                <button class="view-menu-btn" onclick="showRestaurantDetail('${product.id}')">
+                    Xem Chi Tiết
+                </button>
             </div>
         </div>
     `).join('');

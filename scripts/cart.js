@@ -1,3 +1,14 @@
+const restaurant = JSON.parse(sessionStorage.getItem("selectedRestaurant"));
+
+if (restaurant) {
+    console.log("Restaurant:", restaurant);
+
+    const nameElement = document.getElementById("restaurantName");
+    if (nameElement) {
+        nameElement.textContent = restaurant.name;
+    }
+}
+
 const state = {
     cart: []
 };

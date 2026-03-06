@@ -1,5 +1,5 @@
-// ==================== CONFIG ====================
-const RAPIDAPI_KEY = 'f95461abeemsh6e3039e52116ac7p152f3ajsnd300217a2f54';
+
+const RAPIDAPI_KEY = '26ac47b6b6msh13462f65f907d91p1c7cfcjsn90ef474d07a2';
 const RAPIDAPI_HOST = 'talabat.p.rapidapi.com';
 const API_BASE = 'https://api.example.com';
 const DELIVERY_FEE = 5;
@@ -145,24 +145,24 @@ function setupEventListeners() {
 }
 
 function handleCityChange(e) {
-    state.selectedCity = e.target.value;
+    window.state.selectedCity = e.target.value;
     loadRestaurants();
 }
 
 function handleSearch(e) {
-    state.searchQuery = e.target.value.toLowerCase();
+    window.state.searchQuery = e.target.value.toLowerCase();
     displayRestaurants();
 }
 
 function handleSort(e) {
-    state.sortBy = e.target.value;
+    window.state.sortBy = e.target.value;
     displayRestaurants();
 }
 
 function handleCategoryFilter(e) {
     window.filterTags.forEach(t => t.classList.remove('active'));
     e.target.classList.add('active');
-    state.selectedCategory = e.target.dataset.filter;
+    window.state.selectedCategory = e.target.dataset.filter;
     displayRestaurants();
 }
 
@@ -195,9 +195,6 @@ function showNotification(message, type = 'info') {
         }, 3000);
     }
 }
-
-// All variables (state, elements, etc) are already defined in index.html
-// Adding event listeners here
 
 // Show/Hide Loading Spinner
 function showLoading(show) {
@@ -234,9 +231,7 @@ async function loadRestaurants() {
         }
         
         const data = await response.json();
-        console.log('[v0] API Response:', data);
-        console.log('[v0] data.data type:', typeof data.data);
-        console.log('[v0] data.data:', data.data);
+        console.log('[v0] API Response:', JSON.stringify(data, null, 2));
         
         // Parse API response - handle both array and object cases
         let items = [];
@@ -252,9 +247,6 @@ async function loadRestaurants() {
                 items = data.data.items;
             } else if (data.data.products && Array.isArray(data.data.products)) {
                 items = data.data.products;
-            } else {
-                console.log('[v0] data.data keys:', Object.keys(data.data));
-                items = [];
             }
         }
         
@@ -292,15 +284,9 @@ async function loadRestaurants() {
 
 async function loadRestaurantMenu(restaurantId) {
     try {
-        const response = await fetch(`${API_BASE}/restaurant/${restaurantId}/menu`);
-
-        if (!response.ok) {
-            throw new Error(`Menu API error: ${response.status}`);
-        }
-
+        const response = await fetch(`${window.API_BASE}/restaurant/${restaurantId}/menu`);
         const data = await response.json();
         return data.menu || getMockMenu(restaurantId);
-
     } catch (error) {
         console.error('[v0] Error loading menu:', error);
         return getMockMenu(restaurantId);
@@ -365,7 +351,7 @@ function displayRestaurants() {
 function sortRestaurants(restaurants) {
     const sorted = [...restaurants];
 
-    switch(state.sortBy) {
+    switch(window.state.sortBy) {
         case 'rating':
             return sorted.sort((a, b) => b.rating - a.rating);
         case 'delivery':
@@ -393,9 +379,10 @@ function renderRestaurants() {
     elements.emptyState.style.display = 'none';
     
     elements.restaurantsList.innerHTML = state.filteredRestaurants.map(restaurant => `
-        <a href="product-detail.html?id=${restaurant.id}" style="text-decoration:none; color:inherit;">
+        <!-- anchor now points into the pages folder so the file can be found when served -->
+        <a href="/pages/product-detail.html?id=${restaurant.id}" style="text-decoration:none; color:inherit;">
             <div class="restaurant-card" style="cursor:pointer;">
-                    <img src="${restaurant.image}" alt="${restaurant.name}" class="restaurant-image" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x300?text=Image+Unavailable'">
+                <img src="${restaurant.image}" alt="${restaurant.name}" class="restaurant-image">
                 <div class="restaurant-body">
                     <div class="restaurant-header">
                         <h3 class="restaurant-name">${restaurant.name}</h3>
@@ -421,8 +408,8 @@ function renderRestaurants() {
                         </div>
                     </div>
                     <div class="restaurant-actions">
-                        <button class="view-menu-btn" onclick="event.preventDefault(); showRestaurantDetail('${restaurant.id}')">
-                            Xem Menu
+                        <button class="view-menu-btn" onclick="showRestaurantDetail('${restaurant.id}')">
+                        Xem chi tiết sản phẩm
                         </button>
                         <button class="add-btn" onclick="event.preventDefault(); addToCart({
                             id: '${restaurant.id}',
@@ -441,63 +428,21 @@ function renderRestaurants() {
     `).join('');
 }
 
-// Show restaurant detail in modal
-async function showRestaurantDetail(restaurantId) {
+function showRestaurantDetail(restaurantId) {
     const restaurant = state.restaurants.find(r => r.id === restaurantId);
     if (!restaurant) return;
-    
-    state.selectedRestaurant = restaurant;
-    const menu = await loadRestaurantMenu(restaurantId);
-    
-    elements.restaurantContent.innerHTML = `
-        <div class="restaurant-detail">
-            <div class="detail-header">
-                <img src="${restaurant.image}" alt="${restaurant.name}" class="detail-image">
-                <h2 class="detail-title">${restaurant.name}</h2>
-                <p>${restaurant.cuisines?.join(', ') || 'Various'}</p>
-                <div class="detail-meta">
-                    <div class="meta-item">⭐ ${(restaurant.rating || 4.0).toFixed(1)}</div>
-                    <div class="meta-item">🕐 ${restaurant.deliveryTime || '30-40 mins'}</div>
-                    <div class="meta-item">🚚 ${restaurant.deliveryFee || 'AED 5'}</div>
-                    <div class="meta-item">📍 Min: ${restaurant.minOrder || 'AED 30'}</div>
-                </div>
-            </div>
-            
-            <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Menu</h3>
-            <div class="menu-items">
-                ${menu.length > 0 ? menu.map(item => `
-                    <div class="menu-item">
-                        <img src="${item.image}" alt="${item.name}" class="menu-item-image">
-                        <div class="menu-item-content">
-                            <div class="menu-item-name">${item.name}</div>
-                            <div class="menu-item-desc">${item.description}</div>
-                            <div class="menu-item-footer">
-                                <div class="menu-item-price">AED ${item.price}</div>
-                                <button class="add-to-cart-btn" onclick="addToCart({
-                                    id: '${item.id}',
-                                    name: '${item.name}',
-                                    price: ${item.price},
-                                    image: '${item.image}',
-                                    restaurantId: '${restaurant.id}',
-                                    restaurantName: '${restaurant.name}'
-                                })">Add</button>
-                            </div>
-                        </div>
-                    </div>
-                `).join('') : '<p style="grid-column: 1/-1;">Không có menu</p>'}
-            </div>
-        </div>
-    `;
-    
-    elements.restaurantModal.classList.add('active');
-}
 
+    sessionStorage.setItem('selectedRestaurant', JSON.stringify(restaurant));
+
+    // navigate using absolute path to avoid relative path issues
+    window.location.href = "/pages/product-detail.html?id=" + restaurantId;
+}
 // Cart Management
 function addToCart(item) {
     const existingItem = state.cart.find(i => i.id === item.id);
     
     if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity = (existingItem.quantity || 1) + 1;
     } else {
         state.cart.push({
             ...item,
@@ -525,7 +470,7 @@ function updateQuantity(itemId, quantity) {
 }
 
 function updateCart() {
-    const count = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+    const count = state.cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
     elements.cartBadge.textContent = count;
     elements.cartBadge.style.display = count > 0 ? 'flex' : 'none';
 }
@@ -536,11 +481,11 @@ function renderCart() {
         return;
     }
     
-    const total = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + DELIVERY_FEE;
+    const total = window.state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + APP_CONFIG.DELIVERY_FEE;
     
-    elements.cartContent.innerHTML = `
+    window.elements.cartContent.innerHTML = `
         <div class="cart-list">
-            ${state.cart.map(item => `
+            ${window.state.cart.map(item => `
                 <div class="cart-item">
                     <img src="${item.image}" alt="${item.name}" class="cart-item-image">
                     <div class="cart-item-content">
@@ -559,11 +504,11 @@ function renderCart() {
         <div class="cart-summary">
             <div class="summary-row">
                 <span>Subtotal:</span>
-                <span>AED ${state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)}</span>
+                <span>AED ${window.state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)}</span>
             </div>
             <div class="summary-row">
                 <span>Delivery:</span>
-                <span>AED ${DELIVERY_FEE}</span>
+                <span>AED ${APP_CONFIG.DELIVERY_FEE}</span>
             </div>
             <div class="summary-row total">
                 <span>Total:</span>

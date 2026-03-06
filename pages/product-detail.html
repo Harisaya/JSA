@@ -1,207 +1,133 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi Tiết Sản Phẩm - DarkHub</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chi Tiết Sản Phẩm - DarkHub</title>
+
+<link rel="stylesheet" href="../styles.css">
+
 </head>
+
 <body>
-    <div class="app">
-        <header class="header">
-            <div class="header-wrapper">
-                <div class="logo">
-                    <span class="logo-emoji">🛍</span>
-                    <span class="logo-text">DarkHub</span>
-                </div>
-                <div class="header-right">
-                    <a href="index.html" class="nav-link">Trang Chủ</a>
-                    <a href="search.html" class="nav-link">Tìm Kiếm</a>
-                    <a href="cart.html" class="nav-link">🛒 Giỏ Hàng</a>
-                    <a href="orders.html" class="nav-link">📦 Đơn Hàng</a>
-                    <a href="profile.html" class="nav-link">👤 Hồ Sơ</a>
-                </div>
-            </div>
-        </header>
 
-        <main class="main-content">
-            <div class="product-detail-container">
-                <a href="index.html" class="back-link">← Quay lại</a>
-                
-                <div id="productDetail" class="product-detail">
-                    <div class="product-image-section">
-                        <img id="productImage" src="" alt="Product" class="product-image">
-                    </div>
-                    
-                    <div class="product-info-section">
-                        <h1 id="productName" class="product-title"></h1>
-                        
-                        <div class="product-rating">
-                            <span class="stars" id="productStars">⭐⭐⭐⭐⭐</span>
-                            <span class="rating-value" id="productRating">4.8</span>
-                            <span class="review-count" id="productReviews">(1,250 reviews)</span>
-                        </div>
-                        
-                        <div class="product-price" id="productPrice">AED 35</div>
-                        
-                        <div class="product-description" id="productDescription">
-                            Mô tả sản phẩm đang được tải...
-                        </div>
-                        
-                        <div class="product-info">
-                            <div class="info-row">
-                                <span>🕐 Thời gian giao:</span>
-                                <strong id="deliveryTime">30-40 phút</strong>
-                            </div>
-                            <div class="info-row">
-                                <span>🚚 Phí giao:</span>
-                                <strong id="deliveryFee">AED 5</strong>
-                            </div>
-                            <div class="info-row">
-                                <span>📍 Địa chỉ:</span>
-                                <strong id="restaurant">Pizza Paradise</strong>
-                            </div>
-                        </div>
-                        
-                        <div class="quantity-selector">
-                            <button id="decreaseBtn" class="qty-btn">−</button>
-                            <input type="number" id="quantity" value="1" min="1" readonly>
-                            <button id="increaseBtn" class="qty-btn">+</button>
-                        </div>
-                        
-                        <button id="addToCartBtn" class="add-to-cart-btn">Thêm vào giỏ hàng</button>
-                    </div>
-                </div>
-                
-                <div id="relatedProducts" class="related-products" style="margin-top: 3rem;">
-                    <h2 style="color: #f0f0f0; margin-bottom: 1.5rem;">Sản phẩm liên quan</h2>
-                    <div id="relatedList" class="restaurants-grid"></div>
-                </div>
-            </div>
-        </main>
-    </div>
+<div class="app">
 
-    <script src="config.js"></script>
-    <script src="mock-data.js"></script>
-    <script src="main.js"></script>
-    
-    <script>
-        // Product Detail Page Script
-        let cart = [];
-        let currentProduct = null;
+<header class="header">
+<div class="header-wrapper">
 
-        function getProductFromURL() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('id');
-        }
+<div class="logo">
+<span class="logo-emoji">🛍</span>
+<span class="logo-text">DarkHub</span>
+</div>
 
-        function displayProduct(productId) {
-            const allRestaurants = getMockRestaurants();
-            const product = allRestaurants.find(r => r.id == productId);
-            
-            if (!product) {
-                document.getElementById('productDetail').innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #aaa;">Sản phẩm không tìm thấy</p>';
-                return;
-            }
+<div class="header-right">
+<a href="../index.html" class="nav-link">Trang Chủ</a>
+<a href="search.html" class="nav-link">Tìm Kiếm</a>
+<a href="cart.html" class="nav-link">Giỏ Hàng</a>
+<a href="orders.html" class="nav-link">Đơn Hàng</a>
+<a href="profile.html" class="nav-link">Hồ Sơ</a>
+</div>
 
-            currentProduct = product;
-            
-            document.getElementById('productImage').src = product.image;
-            document.getElementById('productName').textContent = product.name;
-            document.getElementById('productRating').textContent = (product.rating || 4.0).toFixed(1);
-            document.getElementById('productReviews').textContent = `(${product.reviews || 0} reviews)`;
-            document.getElementById('productPrice').textContent = `AED ${product.minOrder || 35}`;
-            document.getElementById('productDescription').textContent = `${product.name} - Nhà hàng chuyên về ${(product.cuisines || ['Thực phẩm']).join(', ')}. Đánh giá cao từ ${product.reviews || 0} khách hàng. Giao hàng nhanh chóng và đáng tin cậy.`;
-            document.getElementById('deliveryTime').textContent = product.deliveryTime || '30-40 phút';
-            document.getElementById('deliveryFee').textContent = product.deliveryFee || 'AED 5';
-            document.getElementById('restaurant').textContent = product.name;
-            
-            // Related products (same category)
-            const related = allRestaurants.filter(r => r.category === product.category && r.id != productId).slice(0, 4);
-            displayRelatedProducts(related);
-        }
+</div>
+</header>
 
-        function displayRelatedProducts(products) {
-            const container = document.getElementById('relatedList');
-            if (products.length === 0) {
-                container.innerHTML = '<p style="color: #aaa;">Không có sản phẩm liên quan</p>';
-                return;
-            }
+<main class="main-content">
 
-            container.innerHTML = products.map(product => `
-                <a href="product-detail.html?id=${product.id}" style="text-decoration: none; color: inherit;">
-                    <div class="restaurant-card" style="cursor: pointer;">
-                        <img src="${product.image}" alt="${product.name}" class="restaurant-image">
-                        <div class="restaurant-body">
-                            <h3 class="restaurant-name">${product.name}</h3>
-                            <p style="color: #888; font-size: 0.9rem;">⭐ ${(product.rating || 4.0).toFixed(1)} • ${product.reviews || 0} reviews</p>
-                            <p style="color: #FF006E; font-weight: 600;">Xem chi tiết →</p>
-                        </div>
-                    </div>
-                </a>
-            `).join('');
-        }
+<a href="../index.html" class="back-link">← Quay lại</a>
 
-        function updateQuantity(change) {
-            const input = document.getElementById('quantity');
-            let value = parseInt(input.value) + change;
-            if (value >= 1) {
-                input.value = value;
-            }
-        }
+<div id="productDetail" class="product-detail">
 
-        function addToCart() {
-            if (!currentProduct) return;
+<div class="product-image-section">
+<img id="productImage" src="" class="product-image">
+</div>
 
-            const quantity = parseInt(document.getElementById('quantity').value);
-            const price = parseInt(currentProduct.minOrder?.replace(/[^0-9]/g, '') || 35);
-            
-            const cartItem = {
-                id: currentProduct.id,
-                name: currentProduct.name,
-                price: price,
-                quantity: quantity,
-                image: currentProduct.image
-            };
+<div class="product-info-section">
 
-            cart.push(cartItem);
-            localStorage.setItem('darkhub_cart', JSON.stringify(cart));
-            
-            showAddedNotification();
-        }
+<h1 id="productName"></h1>
 
-        function showAddedNotification() {
-            const btn = document.getElementById('addToCartBtn');
-            const originalText = btn.textContent;
-            btn.textContent = '✓ Đã thêm vào giỏ hàng!';
-            btn.style.background = '#10B981';
-            
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.style.background = '';
-            }, 2000);
-        }
+<div class="product-rating">
+<span id="productRating"></span>
+<span id="productReviews"></span>
+</div>
 
-        // Event Listeners
-        document.getElementById('increaseBtn').addEventListener('click', () => updateQuantity(1));
-        document.getElementById('decreaseBtn').addEventListener('click', () => updateQuantity(-1));
-        document.getElementById('addToCartBtn').addEventListener('click', addToCart);
+<div id="productPrice"></div>
 
-        // Load cart from localStorage
-        const savedCart = localStorage.getItem('darkhub_cart');
-        if (savedCart) {
-            cart = JSON.parse(savedCart);
-        }
+<p id="productDescription"></p>
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            const productId = getProductFromURL();
-            if (productId) {
-                displayProduct(productId);
-            } else {
-                window.location.href = 'index.html';
-            }
-        });
-    </script>
+<div class="product-info">
+
+<div class="info-row">
+<span>🕐 Thời gian giao</span>
+<strong id="deliveryTime"></strong>
+</div>
+
+<div class="info-row">
+<span>🚚 Phí giao</span>
+<strong id="deliveryFee"></strong>
+</div>
+
+<div class="info-row">
+<span>🏪 Nhà hàng</span>
+<strong id="restaurant"></strong>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+<script src="../scripts/config.js"></script>
+<!-- main.js lives at the workspace root, not in /scripts -->
+<script src="../main.js"></script>
+
+<script>
+
+function getProductFromURL(){
+const params = new URLSearchParams(window.location.search)
+return params.get("id")
+}
+
+function loadProduct(){
+
+const id = getProductFromURL()
+
+if(!id){
+document.getElementById("productDetail").innerHTML="Không tìm thấy sản phẩm"
+return
+}
+
+const products = window.products || []
+
+const product = products.find(p=>p.id==id)
+
+if(!product){
+document.getElementById("productDetail").innerHTML="Không tìm thấy sản phẩm"
+return
+}
+
+document.getElementById("productImage").src = product.image
+document.getElementById("productName").innerText = product.name
+document.getElementById("productRating").innerText = "⭐ "+product.rating
+document.getElementById("productReviews").innerText = "("+product.reviews+" reviews)"
+document.getElementById("productPrice").innerText = "AED "+product.price
+document.getElementById("productDescription").innerText = product.description
+
+document.getElementById("deliveryTime").innerText = product.deliveryTime
+document.getElementById("deliveryFee").innerText = product.deliveryFee
+document.getElementById("restaurant").innerText = product.name
+
+}
+
+loadProduct()
+
+</script>
+
 </body>
 </html>
