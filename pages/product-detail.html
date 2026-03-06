@@ -35,48 +35,38 @@
 
 <main class="main-content">
 
-<a href="../index.html" class="back-link">← Quay lại</a>
 
-<div id="productDetail" class="product-detail">
+<a href="../index.html" class="back-link custom-back-link">
+		<span class="back-icon">←</span> <span>Quay lại</span>
+</a>
 
-<div class="product-image-section">
-<img id="productImage" src="" class="product-image">
-</div>
-
-<div class="product-info-section">
-
-<h1 id="productName"></h1>
-
-<div class="product-rating">
-<span id="productRating"></span>
-<span id="productReviews"></span>
-</div>
-
-<div id="productPrice"></div>
-
-<p id="productDescription"></p>
-
-<div class="product-info">
-
-<div class="info-row">
-<span>🕐 Thời gian giao</span>
-<strong id="deliveryTime"></strong>
-</div>
-
-<div class="info-row">
-<span>🚚 Phí giao</span>
-<strong id="deliveryFee"></strong>
-</div>
-
-<div class="info-row">
-<span>🏪 Nhà hàng</span>
-<strong id="restaurant"></strong>
-</div>
-
-</div>
-
-</div>
-
+<div id="productDetail" class="product-detail-card">
+	<div class="product-detail-image-frame">
+		<img id="productImage" src="" class="product-image-fixed">
+	</div>
+	<div class="product-detail-info-block">
+		<h1 id="productName" class="product-title"></h1>
+		<div class="product-rating">
+			<span id="productRating"></span>
+			<span id="productReviews"></span>
+		</div>
+		<div id="productPrice" class="product-price"></div>
+		<p id="productDescription" class="product-description"></p>
+		<div class="product-info">
+			<div class="info-row">
+				<span>🕐 Thời gian giao</span>
+				<strong id="deliveryTime"></strong>
+			</div>
+			<div class="info-row">
+				<span>🚚 Phí giao</span>
+				<strong id="deliveryFee"></strong>
+			</div>
+			<div class="info-row">
+				<span>🏪 Nhà hàng</span>
+				<strong id="restaurant"></strong>
+			</div>
+		</div>
+	</div>
 </div>
 
 </main>
@@ -84,8 +74,6 @@
 </div>
 
 <script src="../scripts/config.js"></script>
-<!-- main.js lives at the workspace root, not in /scripts -->
-<script src="../main.js"></script>
 
 <script>
 
@@ -103,25 +91,23 @@ document.getElementById("productDetail").innerHTML="Không tìm thấy sản ph�
 return
 }
 
-const products = window.products || []
+const product = JSON.parse(sessionStorage.getItem('selectedRestaurant'))
 
-const product = products.find(p=>p.id==id)
-
-if(!product){
+if(!product || product.id !== id){
 document.getElementById("productDetail").innerHTML="Không tìm thấy sản phẩm"
 return
 }
 
-document.getElementById("productImage").src = product.image
-document.getElementById("productName").innerText = product.name
-document.getElementById("productRating").innerText = "⭐ "+product.rating
-document.getElementById("productReviews").innerText = "("+product.reviews+" reviews)"
-document.getElementById("productPrice").innerText = "AED "+product.price
-document.getElementById("productDescription").innerText = product.description
+document.getElementById("productImage").src = product.image || product.logo || ''
+document.getElementById("productName").innerText = product.name || product.title || 'Product'
+document.getElementById("productRating").innerText = "⭐ " + (product.rating || 0)
+document.getElementById("productReviews").innerText = "(" + (product.reviews || 0) + " reviews)"
+document.getElementById("productPrice").innerText = "AED " + (product.price || 0)
+document.getElementById("productDescription").innerText = product.description || 'No description'
 
-document.getElementById("deliveryTime").innerText = product.deliveryTime
-document.getElementById("deliveryFee").innerText = product.deliveryFee
-document.getElementById("restaurant").innerText = product.name
+document.getElementById("deliveryTime").innerText = product.deliveryTime || 'N/A'
+document.getElementById("deliveryFee").innerText = product.deliveryFee || 'N/A'
+document.getElementById("restaurant").innerText = product.name || product.title || 'Product'
 
 }
 

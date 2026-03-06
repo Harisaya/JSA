@@ -40,7 +40,7 @@ async function searchProducts(query, category = null) {
             {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 }
             }
@@ -74,7 +74,7 @@ async function getCategories() {
             {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 }
             }
@@ -113,7 +113,7 @@ async function filterProducts(filters) {
             {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 }
             }
@@ -143,7 +143,7 @@ async function getRestaurantDetail(restaurantId) {
             {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 }
             }
@@ -168,7 +168,7 @@ async function loadRestaurantMenu(restaurantId) {
             {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 }
             }
@@ -195,7 +195,7 @@ async function placeOrder(orderData) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 },
                 body: JSON.stringify(orderData)
@@ -232,7 +232,7 @@ async function getUserOrders(userId) {
             {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 }
             }
@@ -257,7 +257,7 @@ async function getOrderTracking(orderId) {
             {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 }
             }
@@ -283,7 +283,7 @@ async function addReview(restaurantId, reviewData) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 },
                 body: JSON.stringify(reviewData)
@@ -312,7 +312,7 @@ async function getRecommendations(userId, category = null) {
             {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 }
             }
@@ -335,7 +335,7 @@ async function loadRestaurants(category = 'all') {
         const options = {
             method: 'GET',
             headers: {
-                'x-rapidapi-key': RAPIDAPI_KEY,
+                'x-rapidapi-key': window.RAPIDAPI_KEY,
                 'x-rapidapi-host': RAPIDAPI_HOST
             }
         };
@@ -408,7 +408,7 @@ async function getUserProfile(userId) {
             {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 }
             }
@@ -434,7 +434,7 @@ async function toggleFavorite(restaurantId, userId) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 }
             }
@@ -458,7 +458,7 @@ async function getFavorites(userId) {
             {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 }
             }
@@ -483,7 +483,7 @@ async function getUserAddresses(userId) {
             {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 }
             }
@@ -508,7 +508,7 @@ async function addAddress(userId, addressData) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 },
                 body: JSON.stringify(addressData)
@@ -535,7 +535,7 @@ async function processPayment(paymentData) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 },
                 body: JSON.stringify(paymentData)
@@ -562,7 +562,7 @@ async function validateCoupon(couponCode) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 },
                 body: JSON.stringify({ code: couponCode })
@@ -588,7 +588,7 @@ async function getNotifications(userId) {
             {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-key': window.RAPIDAPI_KEY,
                     'x-rapidapi-host': RAPIDAPI_HOST
                 }
             }

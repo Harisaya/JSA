@@ -1,8 +1,6 @@
-
-const RAPIDAPI_KEY = '26ac47b6b6msh13462f65f907d91p1c7cfcjsn90ef474d07a2';
-const RAPIDAPI_HOST = 'talabat.p.rapidapi.com';
-const API_BASE = 'https://api.example.com';
-const DELIVERY_FEE = 5;
+(function() {
+if (window.mainJSLoaded) return;
+window.mainJSLoaded = true;
 
 // ==================== DOM ELEMENTS ====================
 const elements = {
@@ -211,7 +209,7 @@ async function loadRestaurants() {
         const options = {
             method: 'GET',
             headers: {
-                'x-rapidapi-key': RAPIDAPI_KEY,
+                'x-rapidapi-key': window.RAPIDAPI_KEY,
                 'x-rapidapi-host': RAPIDAPI_HOST
             }
         };
@@ -379,9 +377,9 @@ function renderRestaurants() {
     elements.emptyState.style.display = 'none';
     
     elements.restaurantsList.innerHTML = state.filteredRestaurants.map(restaurant => `
-        <!-- anchor now points into the pages folder so the file can be found when served -->
-        <a href="/pages/product-detail.html?id=${restaurant.id}" style="text-decoration:none; color:inherit;">
-            <div class="restaurant-card" style="cursor:pointer;">
+        <!-- div clickable for product detail -->
+        <div onclick="showRestaurantDetail('${restaurant.id}');" style="text-decoration:none; color:inherit; cursor:pointer;">
+            <div class="restaurant-card">
                 <img src="${restaurant.image}" alt="${restaurant.name}" class="restaurant-image">
                 <div class="restaurant-body">
                     <div class="restaurant-header">
@@ -424,7 +422,7 @@ function renderRestaurants() {
                     </div>
                 </div>
             </div>
-        </a>
+        </div>
     `).join('');
 }
 
@@ -528,3 +526,4 @@ function handleCheckout() {
     // Checkout logic here
     showNotification('Checkout process initiated!', 'success');
 }
+})();
