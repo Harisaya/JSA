@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkHub - Marketplace Toàn Nền Tảng</title>
+    <title>Talabat - Marketplace</title>
     <link rel="stylesheet" href="styles.css">
     <script src="scripts/config.js"></script>
 </head>
@@ -12,35 +12,29 @@
         <!-- HEADER -->
         <header class="header">
             <div class="header-wrapper">
-                <!-- LEFT: Logo -->
                 <div class="logo">
-                    <span class="logo-emoji">🛍</span>
-                    <span class="logo-text">DarkHub</span>
+                    <span class="logo-emoji"><img src="/img/talabat.png" alt="Talabat Logo" width="36" height="36"></span>
+                    <span class="logo-text">Talabat</span>
                 </div>
-
-                <!-- CENTER: City & Search -->
-                <div class="header-center">
-                    <div class="city-selector">
-                        <span>📍</span>
-                        <select id="citySelect" class="city-dropdown">
-                            <option value="Dubai">Dubai</option>
-                            <option value="Abu Dhabi">Abu Dhabi</option>
-                            <option value="Sharjah">Sharjah</option>
-                        </select>
-                    </div>
+                <div class="city-selector">
+                    <span>📍</span>
+                    <select id="citySelect" class="city-dropdown">
+                        <option value="Dubai">Dubai</option>
+                        <option value="Abu Dhabi">Abu Dhabi</option>
+                        <option value="Sharjah">Sharjah</option>
+                    </select>
                 </div>
-
-                <!-- RIGHT: Search & Cart -->
-                <div class="header-right">
-                    <div class="search-box">
-                        <input type="text" id="headerSearch" placeholder="Tìm sản phẩm..." class="header-search">
-                        <span class="search-icon">🔍</span>
-                    </div>
-                    <a href="/pages/search.html" class="nav-link">Tìm Kiếm</a>
-                    <a href="/pages/cart.html" class="nav-link">🛒 Giỏ Hàng</a>
-                    <a href="/pages/orders.html" class="nav-link">📦 Đơn Hàng</a>
-                    <a href="/pages/profile.html" class="nav-link">👤 Hồ Sơ</a>
+                <div class="search-box">
+                    <input type="text" id="headerSearch" placeholder="Tìm sản phẩm..." class="header-search">
+                    <span class="search-icon">🔍</span>
                 </div>
+                <nav class="header-nav">
+                    <a href="/pages/search.html" class="nav-link"><span class="nav-icon">🔍</span> Tìm Kiếm</a>
+                    <a href="/pages/cart.html" class="nav-link"><span class="nav-icon">🛒</span> Giỏ Hàng</a>
+                    <a href="/pages/orders.html" class="nav-link"><span class="nav-icon">📦</span> Đơn Hàng</a>
+                    <a href="/pages/profile.html" class="nav-link"><span class="nav-icon">👤</span> Hồ Sơ</a>
+                </nav>
+                <div id="auth-links" class="auth-links"></div>
             </div>
 
             <!-- CATEGORY NAVBAR -->

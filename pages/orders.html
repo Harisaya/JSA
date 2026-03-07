@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đơn Hàng - DarkHub</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Đơn Hàng - Talabat</title>
+    <link rel="stylesheet" href="../css/orders.css">
     <style>
         .orders-container {
             max-width: 1000px;
@@ -262,5 +262,11 @@
             </div>
         </main>
     </div>
+    <script>
+        // Check if logged in
+        if (!localStorage.getItem('authToken')) {
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>

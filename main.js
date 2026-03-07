@@ -33,9 +33,32 @@ const state = {
     sortBy: 'popular'
 };
 
+// ==================== AUTHENTICATION ====================
+function checkAuthStatus() {
+    const authLinks = document.getElementById('auth-links');
+    if (localStorage.getItem('authToken')) {
+        // Logged in
+        const userId = localStorage.getItem('userId');
+        authLinks.innerHTML = `<span class="nav-link">Xin chào, ${userId}</span> <a href="/pages/login.html" class="nav-link" onclick="logoutUser()">Đăng Xuất</a>`;
+    } else {
+        // Not logged in
+        authLinks.innerHTML = `<a href="/pages/login.html" class="nav-link">Đăng Nhập</a> <a href="/pages/register.html" class="nav-link">Đăng Ký</a>`;
+    }
+}
+
+window.logoutUser = function () {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userData');
+    checkAuthStatus();
+}
+
 // ==================== INITIALIZE ====================
 document.addEventListener('DOMContentLoaded', () => {
     console.log('[v0] Initializing DarkHub app...');
+    
+    // Check authentication status
+    checkAuthStatus();
     
     // Category navigation
     const categoryNavItems = document.querySelectorAll('.category-nav-item');
@@ -426,15 +449,14 @@ function renderRestaurants() {
     `).join('');
 }
 
-function showRestaurantDetail(restaurantId) {
+window.showRestaurantDetail = function (restaurantId) {
     const restaurant = state.restaurants.find(r => r.id === restaurantId);
     if (!restaurant) return;
 
     sessionStorage.setItem('selectedRestaurant', JSON.stringify(restaurant));
 
-    // navigate using absolute path to avoid relative path issues
     window.location.href = "/pages/product-detail.html?id=" + restaurantId;
-}
+};
 // Cart Management
 function addToCart(item) {
     const existingItem = state.cart.find(i => i.id === item.id);

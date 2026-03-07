@@ -1,0 +1,135 @@
+/* ===== ORDERS PAGE STYLES ===== */
+.orders-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #FF006E;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f0f0f0;
+    margin-bottom: 2rem;
+}
+
+.orders-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.order-card {
+    background: #1a1a1a;
+    border: 1px solid #2d2d2d;
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.order-id {
+    font-weight: 700;
+    color: #f0f0f0;
+    font-size: 1.1rem;
+}
+
+.order-status {
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    background: #2d2d2d;
+    border-radius: 2rem;
+    font-size: 0.85rem;
+    color: #10B981;
+    font-weight: 600;
+}
+
+.order-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #2d2d2d;
+}
+
+.order-items {
+    margin-bottom: 1rem;
+}
+
+.item-list {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.item-list strong {
+    color: #f0f0f0;
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-top: 1px solid #2d2d2d;
+    font-weight: 700;
+    color: #FF006E;
+}
+
+.order-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn.primary {
+    background: #FF006E;
+    color: white;
+}
+
+.action-btn.primary:hover {
+    background: #E6005B;
+}
+
+.action-btn.secondary {
+    background: #2d2d2d;
+    color: #f0f0f0;
+    border: 1px solid #3a3a3a;
+}
+
+.action-btn.secondary:hover {
+    background: #3a3a3a;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .order-info {
+        grid-template-columns: 1fr;
+    }
+}

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hồ Sơ - DarkHub</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Hồ Sơ - Talabat</title>
+    <link rel="stylesheet" href="../css/profile.css">
     <style>
         .profile-container {
             max-width: 800px;
@@ -197,9 +197,17 @@
     </div>
 
     <script>
+        // Check if logged in
+        if (!localStorage.getItem('authToken')) {
+            window.location.href = 'login.html';
+        }
+
         function handleLogout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userData');
             alert('Đăng xuất thành công!');
-            window.location.href = '../pages/login.html';
+            window.location.href = '../index.html';
         }
     </script>
 </body>
