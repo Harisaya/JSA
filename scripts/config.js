@@ -1,7 +1,7 @@
 // ==================== API CONFIGURATION ====================
 // RapidAPI / Talabat configuration — enable to fetch real products
 if (!window.RAPIDAPI_KEY) {
-    window.RAPIDAPI_KEY = '229b4cc48cmsh2831341831c2e68p12af41jsndf3224127f21';
+    window.RAPIDAPI_KEY = 'e1dbdcb0f3msh59c061826b89031p1bf1dcjsn1fea62ce7ffe';
 }
 const RAPIDAPI_HOST = 'talabat.p.rapidapi.com';
 const API_BASE = 'https://api.example.com';
